@@ -34,9 +34,6 @@ module.exports =
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -64,64 +61,14 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("react");
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CustomReactForm = function (_React$Component) {
-  _inherits(CustomReactForm, _React$Component);
-
-  function CustomReactForm() {
-    _classCallCheck(this, CustomReactForm);
-
-    return _possibleConstructorReturn(this, (CustomReactForm.__proto__ || Object.getPrototypeOf(CustomReactForm)).apply(this, arguments));
-  }
-
-  _createClass(CustomReactForm, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        'Custom form!'
-      );
-    }
-  }]);
-
-  return CustomReactForm;
-}(_react2.default.Component);
-
-exports.default = CustomReactForm;
+throw new Error("Module build failed: SyntaxError: Unexpected token (20:17)\n\n\u001b[0m \u001b[90m 18 | \u001b[39m    let childrenObj \u001b[33m=\u001b[39m {}\u001b[33m;\u001b[39m\n \u001b[90m 19 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mprops\u001b[33m.\u001b[39mfields\u001b[33m.\u001b[39mforEach(\u001b[36mfunction\u001b[39m (el\u001b[33m,\u001b[39m i) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 | \u001b[39m      let obj \u001b[33m=\u001b[39m {\u001b[33m...\u001b[39mel\u001b[33m,\u001b[39m key\u001b[33m:\u001b[39m el\u001b[33m.\u001b[39mname}\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 | \u001b[39m      childrenObj[el\u001b[33m.\u001b[39mname] \u001b[33m=\u001b[39m obj\u001b[33m;\u001b[39m\n \u001b[90m 22 | \u001b[39m    })\u001b[33m;\u001b[39m\n \u001b[90m 23 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mstate \u001b[33m=\u001b[39m {\u001b[0m\n");
 
 /***/ })
 /******/ ]);

@@ -4,11 +4,15 @@
   "description": "Custom React Form",
   "main": "build/index.js",
   "peerDependencies": {
-    "react": "^15.5.4"
+    "react": "^16.1.1"
   },
   "dependencies": {
-    "react": "^15.5.4",
-    "webpack": "^2.6.1"
+    "babel-preset-es2015": "^6.24.1",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-scripts": "1.0.17",
+    "validator": "^9.1.1",
+    "webpack": "^3.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,6 +23,11 @@
     "name": "Dan Groza",
     "email": "dan.groza@gmail.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dangroza/custom-react-form.git"
+  },
+  "license": "(MIT OR Apache-2.0)",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
