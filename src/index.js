@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import CustomInput from './components/CustomInput.js';
-import CustomTextarea from './components/CustomTextarea.js';
-import CustomRadio from './components/CustomRadio.js';
-import CustomCheckbox from './components/CustomCheckbox.js';
-import CustomSelect from './components/CustomSelect.js';
-import CustomPassword from './components/CustomPassword.js';
-import CustomButton from './components/CustomButton';
-import CustomTagsContainer from "./components/CustomTagsContainer";
+import Input from './components/input';
+import Textarea from './components/textarea';
+import Richtext from './components/richtext';
+import Radio from './components/radio';
+import Checkbox from './components/checkbox';
+import Select from './components/select';
+import Password from './components/password';
+import Button from './components/button';
+import Tags from "./components/tags";
 
 class CustomReactForm extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class CustomReactForm extends Component {
       for (let id in buttons) {
         if (buttons.hasOwnProperty(id)) {
           let el = buttons[id];
-          childButtons.push( < CustomButton {...el} />)
+          childButtons.push( < Button {...el} />)
         }
        }
     for (var key in fields) {
@@ -76,28 +77,30 @@ class CustomReactForm extends Component {
         el.id = key;
         switch (el.type) {
           case "text":
-            childNodes.push(<CustomInput {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Input {...el} onChange={this.handleFieldChange}/>)
             break;
           case "password":
-            childNodes.push(<CustomPassword {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Password {...el} onChange={this.handleFieldChange}/>)
             break;
           case "textarea":
-            childNodes.push(<CustomTextarea {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Textarea {...el} onChange={this.handleFieldChange}/>)
             break;
+          case "richtext":
+          childNodes.push(<Richtext {...el} onChange={this.handleFieldChange}/>)
           case "radio":
-            childNodes.push(<CustomRadio {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Radio {...el} onChange={this.handleFieldChange}/>)
             break;
           case "checkbox":
-            childNodes.push(<CustomCheckbox {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Checkbox {...el} onChange={this.handleFieldChange}/>)
             break;
           case "select":
-            childNodes.push(<CustomSelect {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Select {...el} onChange={this.handleFieldChange}/>)
             break;
           case "tags":
-            childNodes.push(<CustomTagsContainer {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<TagsContainer {...el} onChange={this.handleFieldChange}/>)
             break;
           default:
-            childNodes.push(<CustomInput {...el} onChange={this.handleFieldChange}/>)
+            childNodes.push(<Input {...el} onChange={this.handleFieldChange}/>)
         }
       }
     }
@@ -105,15 +108,16 @@ class CustomReactForm extends Component {
     return (
       <div className = "form-container">
         <form onSubmit = {this.onSubmit}>
-          <h2 className = "form-title"> {this.props.title}</h2> {childNodes} {childButtons}
-          <button className = "submit-button" > Submit </button>
+          <h2 className = "form-title"> {this.props.title}</h2>
+          {childNodes}
         </form>
       </div>
     );
   }
 
-  onSubmit() {
-    this.props.onSubmit(this.state.fields);
+  onSubmit(e) {
+    e.preventDefault();
+    return false;
   }
 }
 

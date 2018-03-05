@@ -18,6 +18,12 @@ module.exports = {
             presets: ['env']
           }
         }
+      },
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /(node_modules|bower_components|build)/,
+        use: [ 'style-loader', 'css-loader' ]
       }
     ]
   },
