@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import CustomTag from "./CustomTag";
 
 class CustomTagsContainer extends Component {

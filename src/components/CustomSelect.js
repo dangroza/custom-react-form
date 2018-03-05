@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 class CustomSelect extends Component {
   constructor(props) {

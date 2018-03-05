@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import CustomInput from './CustomInput';
 
 class CustomRadio extends Component {

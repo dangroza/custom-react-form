@@ -1,14 +1,12 @@
-import React from 'react';
-
 import React, { Component } from 'react';
-import CustomInput from './componentes/CustomInput.js';
-import CustomTextarea from './componentes/CustomTextarea.js';
-import CustomRadio from './componentes/CustomRadio.js';
-import CustomCheckbox from './componentes/CustomCheckbox.js';
-import CustomSelect from './componentes/CustomSelect.js';
-import CustomPassword from './componentes/CustomPassword.js';
-import CustomButton from './componentes/CustomButton';
-import CustomTagsContainer from "./componentes/CustomTagsContainer";
+import CustomInput from './components/CustomInput.js';
+import CustomTextarea from './components/CustomTextarea.js';
+import CustomRadio from './components/CustomRadio.js';
+import CustomCheckbox from './components/CustomCheckbox.js';
+import CustomSelect from './components/CustomSelect.js';
+import CustomPassword from './components/CustomPassword.js';
+import CustomButton from './components/CustomButton';
+import CustomTagsContainer from "./components/CustomTagsContainer";
 
 class CustomReactForm extends Component {
   constructor(props) {
@@ -17,7 +15,7 @@ class CustomReactForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     let childrenObj = {};
     this.props.fields.forEach(function (el, i) {
-      let obj = {...el, key: el.name};
+      let obj = { ...el, key: el.name };
       childrenObj[el.name] = obj;
     });
     this.state = {
