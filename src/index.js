@@ -5,9 +5,25 @@ import Richtext from './components/richtext';
 import Radio from './components/radio';
 import Checkbox from './components/checkbox';
 import Select from './components/select';
+import SelectTab from './components/select-tab';
 import Password from './components/password';
 import Button from './components/button';
 import Tags from "./components/tags";
+import Url from "./components/url";
+
+const FIELD_CLASS = {
+  'checkbox': Checkbox,
+  'radio': Radio,
+  'selectTab': SelectTab,
+  'select': Select,
+  'text': Input,
+  'url': Url,
+  'password': Password,
+  'textarea': Textarea,
+  'richtext': Richtext,
+  'tags': Tags,
+  'button': Button
+}
 
 class CustomReactForm extends Component {
   constructor(props) {
@@ -24,6 +40,10 @@ class CustomReactForm extends Component {
       isComplete: false,
       fields: childrenObj
     };
+  }
+
+  classForType(type) {
+    return FIELD_CLASS[type] || Input;
   }
 
   updateFileds(fields, fieldModified, fieldValue) {
@@ -75,40 +95,15 @@ class CustomReactForm extends Component {
       if (fields.hasOwnProperty(key)) {
         let el = fields[key];
         el.id = key;
-        switch (el.type) {
-          case "text":
-            childNodes.push(<Input {...el} onChange={this.handleFieldChange}/>)
-            break;
-          case "password":
-            childNodes.push(<Password {...el} onChange={this.handleFieldChange}/>)
-            break;
-          case "textarea":
-            childNodes.push(<Textarea {...el} onChange={this.handleFieldChange}/>)
-            break;
-          case "richtext":
-          childNodes.push(<Richtext {...el} onChange={this.handleFieldChange}/>)
-          case "radio":
-            childNodes.push(<Radio {...el} onChange={this.handleFieldChange}/>)
-            break;
-          case "checkbox":
-            childNodes.push(<Checkbox {...el} onChange={this.handleFieldChange}/>)
-            break;
-          case "select":
-            childNodes.push(<Select {...el} onChange={this.handleFieldChange}/>)
-            break;
-          case "tags":
-            childNodes.push(<TagsContainer {...el} onChange={this.handleFieldChange}/>)
-            break;
-          default:
-            childNodes.push(<Input {...el} onChange={this.handleFieldChange}/>)
-        }
+        const CustomComponent = this.classForType(el.type);
+        childNodes.push(<CustomComponent {...el} onChange={this.handleFieldChange}/>)
       }
     }
 
     return (
       <div className = "form-container">
         <form onSubmit = {this.onSubmit}>
-          <h2 className = "form-title"> {this.props.title}</h2>
+          <h2 className = "form-title"> <b>{this.props.title}</b> {this.props.subTitle}</h2>
           {childNodes}
         </form>
       </div>

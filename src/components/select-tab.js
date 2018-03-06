@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Select from 'react-select-plus';
 
-class Select2 extends Component {
+class SelectTab extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -31,12 +32,13 @@ class Select2 extends Component {
     return (
       <div className="form-group">
         <label>{labelText}</label>
-        <select name={this.props.name} onChange={this.onChange}>
-          {selectNodes}
-        </select>
+        <Select
+          name={this.props.name}
+          placeholder={this.props.placeholder}
+          onChange={this.onChange} />
       </div>
     );
   }
 }
 
-export default Select2;
+export default SelectTab;
