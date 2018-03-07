@@ -10,6 +10,7 @@ import Password from './components/password';
 import Button from './components/button';
 import Tags from "./components/tags";
 import Url from "./components/url";
+import Label from "./components/label";
 
 const FIELD_CLASS = {
   'checkbox': Checkbox,
@@ -22,7 +23,8 @@ const FIELD_CLASS = {
   'textarea': Textarea,
   'richtext': Richtext,
   'tags': Tags,
-  'button': Button
+  'button': Button,
+  'paragraph': Label
 }
 
 class CustomReactForm extends Component {
