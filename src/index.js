@@ -32,8 +32,8 @@ class CustomReactForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     let childrenObj = {};
     this.props.fields.forEach(function (el, i) {
-      let obj = { ...el, key: el.name };
-      childrenObj[el.name] = obj;
+      let obj = { ...el, key: el.id };
+      childrenObj[el.id] = obj;
     });
     this.state = {
       isValid: false,
@@ -46,51 +46,24 @@ class CustomReactForm extends Component {
     return FIELD_CLASS[type] || Input;
   }
 
-  updateFileds(fields, fieldModified, fieldValue) {
-    const fieldName = fieldModified.name;
-    switch (fieldModified.type) {
-      case "tags":
-      case "checkbox":
-        fields[fieldName].value.forEach(function (value) {
-          if (value.name === fieldValue || value.id === fieldValue) {
-            value.selected = !value.selected;
-          }
-        });
-        return fields;
-      case "radio":
-      case "select":
-        fields[fieldName].value.forEach(function (value) {
-          if (value.id === fieldValue)
-            value.selected = true;
-          else if (value.selected) {
-            delete value.selected;
-          }
-        });
-        return fields;
+  updateFields(fields, modifiedField) {
+    const fieldId = modifiedField.id;
+    switch (modifiedField.type) {
       default:
-        fields[fieldName].value = fieldValue;
+        fields[fieldId].value = modifiedField.value;
+        fields[fieldId].errors = modifiedField.errors;
         return fields;
     }
-
   }
 
-  handleFieldChange(field, value) {
-    let updatedFields = this.updateFileds(this.state.fields, field, value);
+  handleFieldChange(field) {
+    let updatedFields = this.updateFields(this.state.fields, field);
     this.setState({fields: updatedFields});
   }
 
   render() {
     let childNodes = [];
     let fields = this.state.fields;
-
-    let childButtons = [];
-    let buttons = this.props.buttons;
-      for (let id in buttons) {
-        if (buttons.hasOwnProperty(id)) {
-          let el = buttons[id];
-          childButtons.push( < Button {...el} />)
-        }
-       }
     for (var key in fields) {
       if (fields.hasOwnProperty(key)) {
         let el = fields[key];

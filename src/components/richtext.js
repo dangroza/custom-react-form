@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
+import validator from 'validator';
 
 import '../style/richtext.css';
 class Richtext extends Component {
   constructor(props) {
     super(props);
-    this.state = {editorState: EditorState.createEmpty()};
-    //this.onChange = (editorState) => this.setState({editorState});
+    this.state = { editorState: EditorState.createEmpty() }; // set existing
     this.onChange = this._handleOnChange.bind(this);
     //this.focus = () => this.refs.editor.focus();
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -18,10 +18,28 @@ class Richtext extends Component {
   }
 
   _handleOnChange(e) {
-    //https://github.com/sstur/draft-js-utils.git
-    //stateToHTML(this.state.editorState.getCurrentContent())
-    this.setState({editorState: e, htmlContent: stateToHTML(e.getCurrentContent())});
+    const value = stateToHTML(e.getCurrentContent());
+    this.setState({ editorState: e, htmlContent: value });
+    const plainTextValue = new DOMParser().parseFromString(value, 'text/html').body.textContent;
+    this.props.onChange(
+      {
+        type: this.props.type,
+        id: this.props.id,
+        value: value,
+        errors: this.validationErrors(plainTextValue)
+      }
+    );
   }
+
+  validationErrors(value) {
+    let errors = [];
+    if (this.props.mandatory && validator.isEmpty(value)) {
+      errors.push(`${this.props.label} is required.`);
+    }
+    return errors;
+  }
+
+
   _handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -60,6 +78,19 @@ class Richtext extends Component {
     );
   }
 
+  get _styleControls() {
+    return([
+      <BlockStyleControls
+        editorState={this.state.editorState}
+        onToggle={this.toggleBlockType}
+      />,
+      <InlineStyleControls
+        editorState={this.state.editorState}
+        onToggle={this.toggleInlineStyle}
+      />
+    ]);
+  }
+
   render() {
     const {editorState} = this.state;
     let className = 'RichEditor-editor';
@@ -70,18 +101,15 @@ class Richtext extends Component {
       }
     }
 
+    const { label, id, mandatory, errors, ...domProps} = this.props;
+    const mandatoryMark = mandatory ? (<span>*</span>): '';
+    let labelClass = ['label-section'];
+    labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
-        <div className="RichEditor-root">
-          <label htmlFor={this.props.id}>{this.props.label}</label>
-          <BlockStyleControls
-            editorState={this.state.editorState}
-            onToggle={this.toggleBlockType}
-          />
-          <InlineStyleControls
-            editorState={this.state.editorState}
-            onToggle={this.toggleInlineStyle}
-          />
+        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
+        <div className="RichEditor-root richtext">
+          {this._styleControls}
           <div className={className} onClick={this.focus}>
             <Editor
               blockStyleFn={getBlockStyle}
@@ -90,14 +118,20 @@ class Richtext extends Component {
               keyBindingFn={this.mapKeyToEditorCommand}
               //ref="editor"
               spellCheck={true}
+              id={id}
               editorState={this.state.editorState}
               onChange={this.onChange}
               placeholder={this.props.placeholder}
             />
           </div>
         </div>
+        {this.fieldErrors}
       </div>
     );
+  }
+
+  get fieldErrors(){
+    return (<div className='error'>{this.props.errors}</div>);
   }
 }
 

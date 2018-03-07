@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import validator from 'validator';
 
 class Input extends Component {
   constructor(props) {
@@ -7,26 +8,43 @@ class Input extends Component {
   }
 
   onChange(event) {
-    let field = event.target;
-    let value = field.value;
-    if (field.type === "checkbox" || field.type === "radio") {
-      value = field.id;
+    let field = event.currentTarget;
+    this.props.onChange(
+      {
+        type: field.type,
+        id: field.id,
+        value: field.value,
+        errors: this.validationErrors(field.value)
+      }
+    );
+  }
+
+  validationErrors(value) {
+    let errors = [];
+    if (this.props.mandatory && validator.isEmpty(value)) {
+      errors.push(`${this.props.label} is required.`);
     }
-    this.props.onChange({'type': field.type, 'name': field.name}, value);
+    return errors;
   }
 
   render() {
-    let labelText = this.props.label;
+    const { label, id, mandatory, errors, ...domProps} = this.props;
+    const mandatoryMark = mandatory ? (<span>*</span>): '';
+    let labelClass = ['label-section'];
+    labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-inputs">
-        <label className="label-section" htmlFor={this.props.id}>{labelText}</label>
-        <input
-          {...this.props}
-          onChange={this.onChange} //TODO: if this is radio or select you must handle parent onChange
-
+        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
+        <input id={id}
+          {...domProps}
+          onChange={this.onChange}
         />
+        {this.fieldErrors}
       </div>
     );
+  }
+  get fieldErrors(){
+    return (<div className='error'>{this.props.errors}</div>);
   }
 }
 
