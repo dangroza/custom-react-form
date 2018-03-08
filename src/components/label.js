@@ -4,7 +4,7 @@ class Label extends Component {
   render() {
     const { id, value, ...domProps} = this.props;
     return (
-      <div className="form-inputs">
+      <div className="form-input">
         <p className='custom-label' dangerouslySetInnerHTML={this.createMarkup()} />
       </div>
     );

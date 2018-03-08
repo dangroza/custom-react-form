@@ -70,13 +70,11 @@ class CustomReactForm extends Component {
   }
 
   updateFields(fields, modifiedField) {
+    const updatedFields = { ...fields };
     const fieldId = modifiedField.id;
-    switch (modifiedField.type) {
-      default:
-        fields[fieldId].value = modifiedField.value;
-        fields[fieldId].errors = modifiedField.errors;
-        return fields;
-    }
+    updatedFields[fieldId].value = modifiedField.value;
+    updatedFields[fieldId].errors = modifiedField.errors;
+    return updatedFields;
   }
 
   handleFieldChange(field) {

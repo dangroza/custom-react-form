@@ -36,7 +36,7 @@ class Url extends Component {
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
-      <div className="form-inputs">
+      <div className="form-input">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
         <input id={id}
           {...domProps}
