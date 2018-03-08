@@ -12,6 +12,15 @@ import Tags from "./components/tags";
 import Url from "./components/url";
 import Label from "./components/label";
 
+import fontawesome from '@fortawesome/fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight, faBold,
+         faListOl, faListUl
+ } from '@fortawesome/fontawesome-free-solid'
+fontawesome.library.add(brands, faCheckSquare, faCoffee)
+
+
+
 const FIELD_CLASS = {
   'checkbox': Checkbox,
   'radio': Radio,

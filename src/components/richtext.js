@@ -93,11 +93,11 @@ class Richtext extends Component {
 
   render() {
     const {editorState} = this.state;
-    let className = 'RichEditor-editor';
+    let className = 'editor';
     var contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-        className += ' RichEditor-hidePlaceholder';
+        className += ' hide-placeholder';
       }
     }
 
@@ -108,7 +108,7 @@ class Richtext extends Component {
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
-        <div className="RichEditor-root richtext">
+        <div className="richtext">
           {this._styleControls}
           <div className={className} onClick={this.focus}>
             <Editor
@@ -145,7 +145,7 @@ const styleMap = {
 };
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case 'blockquote': return 'RichEditor-blockquote';
+    case 'blockquote': return 'blockquote';
     default: return null;
   }
 }
@@ -158,10 +158,11 @@ class StyleButton extends React.Component {
     };
   }
   render() {
-    let className = 'RichEditor-styleButton';
+    let className = 'style-button';
     if (this.props.active) {
-      className += ' RichEditor-activeButton';
+      className += ' active-button';
     }
+    className += ' btn';
     return (
       <span className={className} onMouseDown={this.onToggle}>
         {this.props.label}
@@ -190,7 +191,7 @@ const BlockStyleControls = (props) => {
     .getBlockForKey(selection.getStartKey())
     .getType();
   return (
-    <div className="RichEditor-controls">
+    <div className="controls">
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.label}
@@ -213,7 +214,7 @@ const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
 
   return (
-    <div className="RichEditor-controls">
+    <div className="controls">
       {INLINE_STYLES.map((type) =>
         <StyleButton
           key={type.label}
