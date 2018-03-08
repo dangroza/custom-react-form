@@ -3,24 +3,30 @@
   border: 1px solid #ddd;
   font-family: 'Georgia', serif;
   font-size: 14px;
-  padding: 15px;
+  padding: 0;
 }
 
-.richtext-editor {
-  border-top: 1px solid #ddd;
+.richtext .editor {
   cursor: text;
-  font-size: 16px;
-  margin-top: 10px;
+  font-size: 14px;
+  padding: 8px 5px 5px 5px;
 }
 
-.richtext .public-DraftEditorPlaceholder-root,
-.richtext .public-DraftEditor-content {
-  margin: 0 -15px -15px;
-  padding: 15px;
+.richtext .public-DraftEditorPlaceholder-root {
+  position: relative;
 }
+
+.richtext .public-DraftEditorPlaceholder-root
+  .public-DraftEditorPlaceholder-inner {
+  position: absolute;
+  z-index: 999;
+}
+
 
 .richtext .public-DraftEditor-content {
   min-height: 100px;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 .richtext .hide-placeholder .public-DraftEditorPlaceholder-root {
@@ -57,7 +63,18 @@
   padding: 2px 0;
   display: inline-block;
 }
-
+.richtext .controls {
+  background-color: whitesmoke;
+  padding: 4px;
+  margin: 0;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #ddd;
+  border-radius: 8px 8px 0 0;
+}
 .richtext .active-button {
   color: #5890ff;
+}
+.richtext .controls .button-group {
+  display: inline-block;
 }

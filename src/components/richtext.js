@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import validator from 'validator';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import '../style/richtext.css';
 class Richtext extends Component {
@@ -79,16 +80,18 @@ class Richtext extends Component {
   }
 
   get _styleControls() {
-    return([
-      <BlockStyleControls
-        editorState={this.state.editorState}
-        onToggle={this.toggleBlockType}
-      />,
-      <InlineStyleControls
-        editorState={this.state.editorState}
-        onToggle={this.toggleInlineStyle}
-      />
-    ]);
+    return(
+      <div className='controls'>
+        <InlineStyleControls
+          editorState={this.state.editorState}
+          onToggle={this.toggleInlineStyle}
+        />
+        <BlockStyleControls
+          editorState={this.state.editorState}
+          onToggle={this.toggleBlockType}
+        />
+      </div>
+    );
   }
 
   render() {
@@ -112,7 +115,6 @@ class Richtext extends Component {
           {this._styleControls}
           <div className={className} onClick={this.focus}>
             <Editor
-              blockStyleFn={getBlockStyle}
               customStyleMap={styleMap}
               handleKeyCommand={this.handleKeyCommand}
               keyBindingFn={this.mapKeyToEditorCommand}
@@ -143,12 +145,7 @@ const styleMap = {
     padding: 2,
   },
 };
-function getBlockStyle(block) {
-  switch (block.getType()) {
-    case 'blockquote': return 'blockquote';
-    default: return null;
-  }
-}
+
 class StyleButton extends React.Component {
   constructor() {
     super();
@@ -165,23 +162,15 @@ class StyleButton extends React.Component {
     className += ' btn';
     return (
       <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
+        <FontAwesomeIcon icon={this.props.label}/>
       </span>
     );
   }
 }
 
 const BLOCK_TYPES = [
-  {label: 'H1', style: 'header-one'},
-  {label: 'H2', style: 'header-two'},
-  {label: 'H3', style: 'header-three'},
-  {label: 'H4', style: 'header-four'},
-  {label: 'H5', style: 'header-five'},
-  {label: 'H6', style: 'header-six'},
-  {label: 'Blockquote', style: 'blockquote'},
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'OL', style: 'ordered-list-item'},
-  {label: 'Code Block', style: 'code-block'},
+  {label: 'list-ul', style: 'unordered-list-item'},
+  {label: 'list-ol', style: 'ordered-list-item'}
 ];
 const BlockStyleControls = (props) => {
   const {editorState} = props;
@@ -191,7 +180,7 @@ const BlockStyleControls = (props) => {
     .getBlockForKey(selection.getStartKey())
     .getType();
   return (
-    <div className="controls">
+    <div className='button-group'>
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.label}
@@ -205,16 +194,15 @@ const BlockStyleControls = (props) => {
   );
 };
 var INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
-  {label: 'Monospace', style: 'CODE'},
+  {label: 'bold', style: 'BOLD'},
+  {label: 'italic', style: 'ITALIC'},
+  {label: 'underline', style: 'UNDERLINE'}
 ];
 const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
 
   return (
-    <div className="controls">
+    <div className='button-group'>
       {INLINE_STYLES.map((type) =>
         <StyleButton
           key={type.label}
