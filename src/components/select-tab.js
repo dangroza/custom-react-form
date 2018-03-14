@@ -9,32 +9,19 @@ class SelectTab extends Component {
   }
 
   onChange(selectedOption) {
-    let modifiedValue = '';
-    if (this.props.multi) {
-      if (selectedOption.length > 0) {
-        let selected = selectedOption[0].value;
-        if (this.props.value.includes(selected)) {
-          modifiedValue = this.props.value.filter(f => f != selected);
-        } else {
-          modifiedValue = [...this.props.value, selected];
-        }
-      } else {
-        modifiedValue = [];
-      }
+    let selectedValue = null;
+    if (Array.isArray(selectedOption)) {
+      selectedValue = selectedOption.map(o => { return o.value });
     } else {
-      if (selectedOption) {
-        modifiedValue = (this.props.value == selectedOption.value) ? '' : selectedOption.value;
-      }
+      selectedValue = selectedOption ? selectedOption.value : '';
     }
-
     this.props.onChange(
       {
         type: this.props.type,
         id: this.props.id,
-        value: modifiedValue,
+        value: selectedValue,
         errors: []
-      }
-    );
+    });
   }
 
   render() {
@@ -44,6 +31,7 @@ class SelectTab extends Component {
         <label>{label}</label>
         <Select
           name={this.props.name}
+          className="select-tab"
           value={value}
           options={options}
           multi={multi}

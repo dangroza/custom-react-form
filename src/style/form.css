@@ -26,3 +26,7 @@ input {
 .error {
   color: #d0021b;
 }
+
+.select-tab input {
+  padding: 0;
+}

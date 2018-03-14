@@ -26,7 +26,7 @@
 .richtext .public-DraftEditor-content {
   min-height: 100px;
   max-height: 200px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .richtext .hide-placeholder .public-DraftEditorPlaceholder-root {

@@ -52,7 +52,6 @@ class CustomReactForm extends Component {
   constructor(props) {
     super(props);
     this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     let childrenObj = {};
     this.props.fields.forEach(function (el, i) {
       let obj = { ...el, key: el.id };
@@ -79,7 +78,7 @@ class CustomReactForm extends Component {
 
   handleFieldChange(field) {
     let updatedFields = this.updateFields(this.state.fields, field);
-    this.setState({fields: updatedFields});
+    this.props.updateParentCallback({fields: updatedFields}); // must be mandatory
   }
 
   render() {
