@@ -19113,7 +19113,8 @@ var Richtext = function (_Component) {
               id: id,
               editorState: this.state.editorState,
               onChange: this.onChange,
-              placeholder: this.props.placeholder
+              placeholder: this.props.placeholder,
+              textAlignment: 'center'
             })
           )
         ),
@@ -46248,6 +46249,10 @@ var _reactSelectPlus2 = _interopRequireDefault(_reactSelectPlus);
 
 __webpack_require__(270);
 
+var _validator = __webpack_require__(33);
+
+var _validator2 = _interopRequireDefault(_validator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -46285,8 +46290,26 @@ var SelectTab = function (_Component) {
         type: this.props.type,
         id: this.props.id,
         value: selectedValue,
-        errors: []
+        errors: this.validationErrors(selectedValue)
       });
+    }
+  }, {
+    key: 'validationErrors',
+    value: function validationErrors(currentValue) {
+      var errors = [];
+      if (this.props.mandatory) {
+        var mandatoryError = this.props.label + ' is required.';
+        if (Array.isArray(currentValue)) {
+          if (currentValue.length < 1) {
+            errors.push(mandatoryError);
+          }
+        } else {
+          if (_validator2.default.isEmpty(currentValue)) {
+            errors.push(mandatoryError);
+          }
+        }
+      }
+      return errors;
     }
   }, {
     key: 'render',
@@ -46301,13 +46324,22 @@ var SelectTab = function (_Component) {
           errors = _props.errors,
           domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'options', 'multi', 'value', 'errors']);
 
+      var mandatoryMark = mandatory ? _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ) : '';
+      var labelClass = ['label-section'];
+      labelClass.push(errors && errors.length > 0 ? 'error' : '');
       return _react2.default.createElement(
         'div',
         { className: 'form-group' },
         _react2.default.createElement(
           'label',
-          null,
-          label
+          { className: labelClass.join(' '), htmlFor: id },
+          label,
+          ' ',
+          mandatoryMark
         ),
         _react2.default.createElement(_reactSelectPlus2.default, {
           name: this.props.name,
@@ -46316,7 +46348,17 @@ var SelectTab = function (_Component) {
           options: options,
           multi: multi,
           placeholder: this.props.placeholder,
-          onChange: this.onChange })
+          onChange: this.onChange }),
+        this.fieldErrors
+      );
+    }
+  }, {
+    key: 'fieldErrors',
+    get: function get() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'error' },
+        this.props.errors
       );
     }
   }]);
@@ -50168,7 +50210,7 @@ exports = module.exports = __webpack_require__(52)(false);
 
 
 // module
-exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-input {\n  margin-bottom: 10px;\n}\n.form-input .label-section {\n  display: block;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-input {\n  margin-bottom: 10px;\n}\n.form-input .label-section {\n  display: block;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n", ""]);
 
 // exports
 

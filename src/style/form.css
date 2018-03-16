@@ -30,3 +30,10 @@ input {
 .select-tab input {
   padding: 0;
 }
+
+.Select--multi .Select-value {
+  color: #555;
+  background-color: #eee;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}

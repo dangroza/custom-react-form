@@ -124,6 +124,7 @@ class Richtext extends Component {
               editorState={this.state.editorState}
               onChange={this.onChange}
               placeholder={this.props.placeholder}
+              textAlignment='center'
             />
           </div>
         </div>
