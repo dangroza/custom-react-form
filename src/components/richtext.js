@@ -4,6 +4,7 @@ import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import validator from 'validator';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import TooltipLink from './tooltip-link';
 
 import '../style/richtext.css';
 class Richtext extends Component {
@@ -110,7 +111,7 @@ class Richtext extends Component {
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
+        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <div className="richtext">
           {this._styleControls}
           <div className={className} onClick={this.focus}>
@@ -131,6 +132,10 @@ class Richtext extends Component {
         {this.fieldErrors}
       </div>
     );
+  }
+
+  get tooltipLink() {
+    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 
   get fieldErrors(){

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
+import TooltipLink from './tooltip-link';
 
 class SelectTab extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class SelectTab extends Component {
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
+        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <Select
           name={this.props.name}
           className="select-tab"
@@ -58,6 +59,11 @@ class SelectTab extends Component {
       </div>
     );
   }
+
+  get tooltipLink() {
+    return (<TooltipLink tooltip={this.props.tooltip} />);
+  }
+
   get fieldErrors(){
     return (<div className='error'>{this.props.errors}</div>);
   }

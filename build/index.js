@@ -18937,21 +18937,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TooltipLink = function (_Component) {
   _inherits(TooltipLink, _Component);
 
-  function TooltipLink(props) {
+  function TooltipLink() {
     _classCallCheck(this, TooltipLink);
 
-    var _this = _possibleConstructorReturn(this, (TooltipLink.__proto__ || Object.getPrototypeOf(TooltipLink)).call(this, props));
-
-    _this.onMouseOver = _this.onMouseOver.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, (TooltipLink.__proto__ || Object.getPrototypeOf(TooltipLink)).apply(this, arguments));
   }
 
   _createClass(TooltipLink, [{
-    key: 'onMouseOver',
-    value: function onMouseOver() {
-      console.log(this.props.tooltip);
-    }
-  }, {
     key: 'render',
     value: function render() {
       if (!this.props.tooltip) return null;
@@ -19057,6 +19049,10 @@ var _validator2 = _interopRequireDefault(_validator);
 var _reactFontawesome = __webpack_require__(98);
 
 var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+
+var _tooltipLink = __webpack_require__(155);
+
+var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
 __webpack_require__(261);
 
@@ -19177,7 +19173,9 @@ var Richtext = function (_Component) {
           { className: labelClass.join(' '), htmlFor: id },
           label,
           ' ',
-          mandatoryMark
+          mandatoryMark,
+          ' ',
+          this.tooltipLink
         ),
         _react2.default.createElement(
           'div',
@@ -19218,6 +19216,11 @@ var Richtext = function (_Component) {
           onToggle: this.toggleBlockType
         })
       );
+    }
+  }, {
+    key: 'tooltipLink',
+    get: function get() {
+      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }, {
     key: 'fieldErrors',
@@ -46335,6 +46338,10 @@ var _validator = __webpack_require__(27);
 
 var _validator2 = _interopRequireDefault(_validator);
 
+var _tooltipLink = __webpack_require__(155);
+
+var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -46421,7 +46428,9 @@ var SelectTab = function (_Component) {
           { className: labelClass.join(' '), htmlFor: id },
           label,
           ' ',
-          mandatoryMark
+          mandatoryMark,
+          ' ',
+          this.tooltipLink
         ),
         _react2.default.createElement(_reactSelectPlus2.default, {
           name: this.props.name,
@@ -46433,6 +46442,11 @@ var SelectTab = function (_Component) {
           onChange: this.onChange }),
         this.fieldErrors
       );
+    }
+  }, {
+    key: 'tooltipLink',
+    get: function get() {
+      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }, {
     key: 'fieldErrors',
@@ -49824,6 +49838,10 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _tooltipLink = __webpack_require__(155);
+
+var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -49842,18 +49860,25 @@ var Password = function (_Component) {
   }
 
   _createClass(Password, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { className: "form-inputs" },
+        'div',
+        { className: 'form-inputs' },
         _react2.default.createElement(
-          "label",
+          'label',
           { htmlFor: this.props.id },
-          this.props.label
+          this.props.label,
+          ' ',
+          this.tooltipLink
         ),
-        _react2.default.createElement("input", { type: this.props.type, placeholder: this.props.placeholder })
+        _react2.default.createElement('input', { type: this.props.type, placeholder: this.props.placeholder })
       );
+    }
+  }, {
+    key: 'tooltipLink',
+    get: function get() {
+      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }]);
 

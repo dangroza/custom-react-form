@@ -28,10 +28,6 @@ class Input extends Component {
     return errors;
   }
 
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
-  }
-
   render() {
     const { label, id, mandatory, errors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
@@ -48,6 +44,11 @@ class Input extends Component {
       </div>
     );
   }
+
+  get tooltipLink() {
+    return (<TooltipLink tooltip={this.props.tooltip} />);
+  }
+
   get fieldErrors(){
     return (<div className='error'>{this.props.errors}</div>);
   }

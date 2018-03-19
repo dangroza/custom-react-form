@@ -3,15 +3,6 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
 import { randomInt } from '../utils';
 class TooltipLink extends Component {
-  constructor(props) {
-    super(props);
-    this.onMouseOver = this.onMouseOver.bind(this);
-  }
-
-  onMouseOver() {
-    console.log(this.props.tooltip);
-  }
-
   render() {
     if (!this.props.tooltip) return null;
     return([

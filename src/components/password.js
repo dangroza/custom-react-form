@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
+import TooltipLink from './tooltip-link';
 
 class Password extends Component {
   render() {
     return (
       <div className="form-inputs">
-        <label htmlFor={this.props.id}>{this.props.label}</label>
+        <label htmlFor={this.props.id}>{this.props.label} {this.tooltipLink}</label>
         <input type={this.props.type} placeholder={this.props.placeholder}/>
       </div>
     );
+  }
+
+  get tooltipLink() {
+    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
 
