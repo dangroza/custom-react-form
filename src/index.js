@@ -16,7 +16,7 @@ import './style/form.css';
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight, faBold,
-         faListOl, faListUl, faItalic, faStrikethrough, faUnderline
+         faListOl, faListUl, faItalic, faStrikethrough, faUnderline, faInfoCircle
         } from '@fortawesome/fontawesome-free-solid'
 fontawesome.library.add(
   faAlignCenter,
@@ -28,10 +28,9 @@ fontawesome.library.add(
   faListUl,
   faItalic,
   faStrikethrough,
-  faUnderline
+  faUnderline,
+  faInfoCircle
 );
-
-
 
 const FIELD_CLASS = {
   'checkbox': Checkbox,

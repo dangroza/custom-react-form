@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import validator from 'validator';
+import TooltipLink from './tooltip-link';
 
 class Input extends Component {
   constructor(props) {
@@ -27,6 +28,10 @@ class Input extends Component {
     return errors;
   }
 
+  get tooltipLink() {
+    return (<TooltipLink tooltip={this.props.tooltip} />);
+  }
+
   render() {
     const { label, id, mandatory, errors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
@@ -34,7 +39,7 @@ class Input extends Component {
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-input">
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
+        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <input id={id}
           {...domProps}
           onChange={this.onChange}

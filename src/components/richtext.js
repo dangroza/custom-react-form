@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import validator from 'validator';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import '../style/richtext.css';
 class Richtext extends Component {
