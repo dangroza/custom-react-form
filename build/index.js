@@ -18979,7 +18979,17 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _validator = __webpack_require__(27);
+
+var _validator2 = _interopRequireDefault(_validator);
+
+var _tooltipLink = __webpack_require__(155);
+
+var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -18990,24 +19000,85 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Textarea = function (_Component) {
   _inherits(Textarea, _Component);
 
-  function Textarea() {
+  function Textarea(props) {
     _classCallCheck(this, Textarea);
 
-    return _possibleConstructorReturn(this, (Textarea.__proto__ || Object.getPrototypeOf(Textarea)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Textarea.__proto__ || Object.getPrototypeOf(Textarea)).call(this, props));
+
+    _this.onChange = _this.onChange.bind(_this);
+    return _this;
   }
 
   _createClass(Textarea, [{
-    key: "render",
+    key: 'onChange',
+    value: function onChange(event) {
+      var field = event.currentTarget;
+      this.props.onChange({
+        type: field.type,
+        id: field.id,
+        value: field.value,
+        errors: this.validationErrors(field.value)
+      });
+    }
+  }, {
+    key: 'validationErrors',
+    value: function validationErrors(value) {
+      var errors = [];
+      if (this.props.mandatory && _validator2.default.isEmpty(value)) {
+        errors.push(this.props.label + ' is required.');
+      }
+      return errors;
+    }
+  }, {
+    key: 'render',
     value: function render() {
+      var _props = this.props,
+          label = _props.label,
+          id = _props.id,
+          mandatory = _props.mandatory,
+          errors = _props.errors,
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors']);
+
+      var mandatoryMark = mandatory ? _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ) : '';
+      var labelClass = [];
+      labelClass.push(errors && errors.length > 0 ? 'error' : '');
+
       return _react2.default.createElement(
-        "div",
-        { className: "form-group" },
+        'div',
+        { className: 'form-group' },
         _react2.default.createElement(
-          "label",
-          { htmlFor: this.props.id },
-          this.props.label
+          'label',
+          { className: labelClass.join(' '), htmlFor: id },
+          label,
+          ' ',
+          mandatoryMark,
+          ' ',
+          this.tooltipLink
         ),
-        _react2.default.createElement("textarea", { name: this.props.name, rows: "3", type: this.props.type, placeholder: this.props.placeholder })
+        _react2.default.createElement('textarea', {
+          id: id,
+          rows: '3',
+          onChange: this.onChange,
+          placeholder: this.props.placeholder }),
+        this.fieldErrors
+      );
+    }
+  }, {
+    key: 'tooltipLink',
+    get: function get() {
+      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
+    }
+  }, {
+    key: 'fieldErrors',
+    get: function get() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'error' },
+        this.props.errors
       );
     }
   }]);
@@ -50317,7 +50388,7 @@ exports = module.exports = __webpack_require__(52)(false);
 
 
 // module
-exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-input {\n  margin-bottom: 10px;\n}\n.form-input .label-section {\n  display: block;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n\n.tooltip-link {\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-input {\n  margin-bottom: 10px;\n}\n.form-input .label-section {\n  display: block;\n}\n\ntextarea {\n  width: 100%;\n  display: block;\n  border: 1px solid #d9d9d9;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n\n.tooltip-link {\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 
