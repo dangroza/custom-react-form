@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Input from './components/input';
 import Textarea from './components/textarea';
 import Richtext from './components/richtext';
@@ -75,12 +76,22 @@ class CustomReactForm extends Component {
     return updatedFields;
   }
 
+  get readOnlyAttributes() {
+    return {
+      settings: this.props.settings
+    }
+  }
+
   handleFieldChange(field) {
     let updatedFields = this.updateFields(this.state.fields, field);
-    this.props.updateParentCallback({fields: updatedFields}); // must be mandatory
+    this.props.updateParentCallback({
+      fields: updatedFields,
+      ...this.readOnlyAttributes
+    });
   }
 
   render() {
+    const { title, subTitle } = this.props.settings;
     let childNodes = [];
     let fields = this.state.fields;
     for (var key in fields) {
@@ -93,9 +104,9 @@ class CustomReactForm extends Component {
     }
 
     return (
-      <div className = "form-container">
-        <form onSubmit = {this.onSubmit}>
-          <h2 className = "form-title"> <b>{this.props.title}</b> {this.props.subTitle}</h2>
+      <div className="form-container">
+        <form onSubmit={this.onSubmit}>
+          <h2 className="form-title"><b>{title}</b> {subTitle}</h2>
           {childNodes}
         </form>
       </div>
@@ -108,4 +119,7 @@ class CustomReactForm extends Component {
   }
 }
 
+CustomReactForm.propTypes = {
+  updateParentCallback: PropTypes.func.isRequired
+};
 export default CustomReactForm;
