@@ -51747,7 +51747,7 @@ var Label = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'form-input' },
+        { className: 'form-input form-label' },
         _react2.default.createElement('p', { className: 'custom-label', dangerouslySetInnerHTML: this.createMarkup() })
       );
     }
