@@ -16,10 +16,10 @@ input {
   margin: 20px auto;
 }
 
-.form-input {
+.form-group {
   margin-bottom: 10px;
 }
-.form-input .label-section {
+.form-group .label-section {
   display: block;
 }
 

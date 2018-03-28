@@ -22,7 +22,7 @@ class Checkbox extends Component {
     }
 
     return (
-      <div className="form-group" id="checkbox">
+      <div className="form-group">
         <div><h4>{this.props.label}</h4></div>
         {valueNodes}
       </div>

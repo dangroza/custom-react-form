@@ -8751,7 +8751,7 @@ var Input = function (_Component) {
       labelClass.push(errors && errors.length > 0 ? 'error' : '');
       return _react2.default.createElement(
         'div',
-        { className: 'form-input' },
+        { className: 'form-group' },
         _react2.default.createElement(
           'label',
           { className: labelClass.join(' '), htmlFor: id },
@@ -16677,9 +16677,15 @@ var _url = __webpack_require__(291);
 
 var _url2 = _interopRequireDefault(_url);
 
-var _label = __webpack_require__(292);
+var _container = __webpack_require__(296);
 
-var _label2 = _interopRequireDefault(_label);
+var _container2 = _interopRequireDefault(_container);
+
+var _highOrderContainer = __webpack_require__(297);
+
+var _highOrderContainer2 = _interopRequireDefault(_highOrderContainer);
+
+var _utils = __webpack_require__(178);
 
 __webpack_require__(293);
 
@@ -16715,7 +16721,8 @@ var FIELD_CLASS = {
   'richtext': _richtext2.default,
   'tags': _tags2.default,
   'button': _button2.default,
-  'paragraph': _label2.default
+  'container': _container2.default,
+  'hoc': _highOrderContainer2.default
 };
 
 var CustomReactForm = function (_Component) {
@@ -16729,8 +16736,9 @@ var CustomReactForm = function (_Component) {
     _this.handleFieldChange = _this.handleFieldChange.bind(_this);
     var childrenObj = {};
     _this.props.fields.forEach(function (el, i) {
-      var obj = _extends({}, el, { key: el.id });
-      childrenObj[el.id] = obj;
+      var fieldId = el.id || (0, _utils.randomInt)();
+      var obj = _extends({}, el, { key: fieldId });
+      childrenObj[fieldId] = obj;
     });
     _this.state = {
       isValid: false,
@@ -16776,7 +16784,12 @@ var CustomReactForm = function (_Component) {
           var el = fields[key];
           el.id = key;
           var CustomComponent = this.classForType(el.type);
-          childNodes.push(_react2.default.createElement(CustomComponent, _extends({}, el, { onChange: this.handleFieldChange })));
+          if (el.type == 'hoc') {
+            var HOC = CustomComponent(el.component);
+            childNodes.push(_react2.default.createElement(HOC, el.componentProps));
+          } else {
+            childNodes.push(_react2.default.createElement(CustomComponent, _extends({}, el, { onChange: this.handleFieldChange })));
+          }
         }
       }
 
@@ -47681,7 +47694,7 @@ var Radio = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'form-group', id: 'radio-buttons' },
+        { className: 'form-group' },
         _react2.default.createElement(
           'div',
           null,
@@ -47763,7 +47776,7 @@ var Checkbox = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'form-group', id: 'checkbox' },
+        { className: 'form-group' },
         _react2.default.createElement(
           'div',
           null,
@@ -51369,7 +51382,7 @@ var Password = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'form-inputs' },
+        { className: 'form-group' },
         _react2.default.createElement(
           'label',
           { htmlFor: this.props.id },
@@ -51670,7 +51683,7 @@ var Url = function (_Component) {
       labelClass.push(errors && errors.length > 0 ? 'error' : '');
       return _react2.default.createElement(
         'div',
-        { className: 'form-input' },
+        { className: 'form-group' },
         _react2.default.createElement(
           'label',
           { className: labelClass.join(' '), htmlFor: id },
@@ -51702,68 +51715,7 @@ var Url = function (_Component) {
 exports.default = Url;
 
 /***/ }),
-/* 292 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Label = function (_Component) {
-  _inherits(Label, _Component);
-
-  function Label() {
-    _classCallCheck(this, Label);
-
-    return _possibleConstructorReturn(this, (Label.__proto__ || Object.getPrototypeOf(Label)).apply(this, arguments));
-  }
-
-  _createClass(Label, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          id = _props.id,
-          value = _props.value,
-          domProps = _objectWithoutProperties(_props, ['id', 'value']);
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'form-input form-label' },
-        _react2.default.createElement('p', { className: 'custom-label', dangerouslySetInnerHTML: this.createMarkup() })
-      );
-    }
-  }, {
-    key: 'createMarkup',
-    value: function createMarkup() {
-      return { __html: this.props.value };
-    }
-  }]);
-
-  return Label;
-}(_react.Component);
-
-exports.default = Label;
-
-/***/ }),
+/* 292 */,
 /* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51822,7 +51774,7 @@ exports = module.exports = __webpack_require__(54)(false);
 
 
 // module
-exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-input {\n  margin-bottom: 10px;\n}\n.form-input .label-section {\n  display: block;\n}\n\ntextarea {\n  width: 100%;\n  display: block;\n  border: 1px solid #d9d9d9;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n\n.tooltip-link {\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-group {\n  margin-bottom: 10px;\n}\n.form-group .label-section {\n  display: block;\n}\n\ntextarea {\n  width: 100%;\n  display: block;\n  border: 1px solid #d9d9d9;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n\n.tooltip-link {\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -53458,6 +53410,122 @@ bunker(function () {
 /* harmony default export */ __webpack_exports__["default"] = (icons$1);
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Container = function (_Component) {
+  _inherits(Container, _Component);
+
+  function Container() {
+    _classCallCheck(this, Container);
+
+    return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).apply(this, arguments));
+  }
+
+  _createClass(Container, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "form-group container" },
+        this.contentFromProps
+      );
+    }
+  }, {
+    key: "contentFromProps",
+    get: function get() {
+      return _react2.default.createElement("div", {
+        className: this.props.cssClass,
+        dangerouslySetInnerHTML: this.htmlMarkup });
+    }
+  }, {
+    key: "htmlMarkup",
+    get: function get() {
+      return { __html: this.props.content };
+    }
+  }]);
+
+  return Container;
+}(_react.Component);
+
+exports.default = Container;
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HighOrderContainer = function HighOrderContainer(ContainedComponent) {
+  var HOCWrapper = function (_React$PureComponent) {
+    _inherits(HOCWrapper, _React$PureComponent);
+
+    function HOCWrapper() {
+      _classCallCheck(this, HOCWrapper);
+
+      return _possibleConstructorReturn(this, (HOCWrapper.__proto__ || Object.getPrototypeOf(HOCWrapper)).apply(this, arguments));
+    }
+
+    _createClass(HOCWrapper, [{
+      key: "render",
+      value: function render() {
+        return _react2.default.createElement(
+          "div",
+          { className: "form-group hoc container" },
+          _react2.default.createElement(ContainedComponent, this.props)
+        );
+      }
+    }]);
+
+    return HOCWrapper;
+  }(_react2.default.PureComponent);
+
+  return HOCWrapper;
+};
+
+exports.default = HighOrderContainer;
 
 /***/ })
 /******/ ]);

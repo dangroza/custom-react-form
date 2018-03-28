@@ -4,7 +4,7 @@ import TooltipLink from './tooltip-link';
 class Password extends Component {
   render() {
     return (
-      <div className="form-inputs">
+      <div className="form-group">
         <label htmlFor={this.props.id}>{this.props.label} {this.tooltipLink}</label>
         <input type={this.props.type} placeholder={this.props.placeholder}/>
       </div>

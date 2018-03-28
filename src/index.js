@@ -11,7 +11,9 @@ import Password from './components/password';
 import Button from './components/button';
 import Tags from "./components/tags";
 import Url from "./components/url";
-import Label from "./components/label";
+import Container from "./components/container";
+import HighOrderContainer from "./components/high-order-container";
+import { randomInt } from './utils';
 
 import './style/form.css';
 import fontawesome from '@fortawesome/fontawesome'
@@ -45,7 +47,8 @@ const FIELD_CLASS = {
   'richtext': Richtext,
   'tags': Tags,
   'button': Button,
-  'paragraph': Label
+  'container': Container,
+  'hoc': HighOrderContainer
 }
 
 class CustomReactForm extends Component {
@@ -54,8 +57,9 @@ class CustomReactForm extends Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     let childrenObj = {};
     this.props.fields.forEach(function (el, i) {
-      let obj = { ...el, key: el.id };
-      childrenObj[el.id] = obj;
+      const fieldId = el.id || randomInt();
+      let obj = { ...el, key: fieldId };
+      childrenObj[fieldId] = obj;
     });
     this.state = {
       isValid: false,
@@ -99,7 +103,12 @@ class CustomReactForm extends Component {
         let el = fields[key];
         el.id = key;
         const CustomComponent = this.classForType(el.type);
-        childNodes.push(<CustomComponent {...el} onChange={this.handleFieldChange}/>)
+        if (el.type == 'hoc') {
+          const HOC = CustomComponent(el.component);
+          childNodes.push(<HOC {...el.componentProps} />);
+        } else {
+          childNodes.push(<CustomComponent {...el} onChange={this.handleFieldChange}/>)
+        }
       }
     }
 
