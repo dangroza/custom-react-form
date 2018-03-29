@@ -9,7 +9,6 @@ import Select from './components/select';
 import SelectTab from './components/select-tab';
 import Password from './components/password';
 import Button from './components/button';
-import Tags from "./components/tags";
 import Url from "./components/url";
 import Container from "./components/container";
 import HighOrderContainer from "./components/high-order-container";
@@ -45,7 +44,6 @@ const FIELD_CLASS = {
   'password': Password,
   'textarea': Textarea,
   'richtext': Richtext,
-  'tags': Tags,
   'button': Button,
   'container': Container,
   'hoc': HighOrderContainer
@@ -105,7 +103,7 @@ class CustomReactForm extends Component {
         const CustomComponent = this.classForType(el.type);
         if (el.type == 'hoc') {
           const HOC = CustomComponent(el.component);
-          childNodes.push(<HOC {...el.componentProps} />);
+          childNodes.push(<HOC {...el.componentProps} {...el} />);
         } else {
           childNodes.push(<CustomComponent {...el} onChange={this.handleFieldChange}/>)
         }

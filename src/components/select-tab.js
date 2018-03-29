@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select from 'react-select-plus';
+import Select, { Creatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
@@ -12,6 +12,7 @@ class SelectTab extends Component {
 
   onChange(selectedOption) {
     let selectedValue = null;
+    console.log(selectedOption);
     if (Array.isArray(selectedOption)) {
       selectedValue = selectedOption.map(o => { return o.value });
     } else {
@@ -44,10 +45,11 @@ class SelectTab extends Component {
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
+    let SelectPlusComponent = (this.props.allowNew) ? Creatable : Select;
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
-        <Select
+        <SelectPlusComponent
           name={this.props.name}
           className="select-tab"
           value={value}
