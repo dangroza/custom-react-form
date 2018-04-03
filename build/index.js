@@ -47890,6 +47890,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(4);
@@ -47970,6 +47972,16 @@ var SelectTab = function (_Component) {
       return errors;
     }
   }, {
+    key: 'getOptions',
+    value: function getOptions() {
+      if (!this.props.url) return { options: [] };
+      return fetch(this.props.url).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return { options: json };
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -47990,6 +48002,8 @@ var SelectTab = function (_Component) {
       var labelClass = ['label-section'];
       labelClass.push(errors && errors.length > 0 ? 'error' : '');
       var SelectPlusComponent = this.customSelectClass;
+      var customProps = {};
+      if (this.props.async) customProps.loadOptions = this.getOptions;
       return _react2.default.createElement(
         'div',
         { className: 'form-group' },
@@ -48002,14 +48016,15 @@ var SelectTab = function (_Component) {
           ' ',
           this.tooltipLink
         ),
-        _react2.default.createElement(SelectPlusComponent, {
+        _react2.default.createElement(SelectPlusComponent, _extends({
           name: this.props.name,
           className: 'select-tab',
           value: value,
           options: options,
           multi: multi,
           placeholder: this.props.placeholder,
-          onChange: this.onChange }),
+          onChange: this.onChange
+        }, customProps)),
         this.fieldErrors
       );
     }

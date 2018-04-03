@@ -47,12 +47,25 @@ class SelectTab extends Component {
     if  (allowNew) return Creatable;
     return Select;
   }
+
+  getOptions() {
+    if (!this.props.url) return { options: [] };
+    return fetch(this.props.url)
+      .then((response) => {
+        return response.json();
+      }).then((json) => {
+        return { options: json };
+      });
+  }
+
   render() {
     const { label, id, mandatory, options, multi, value, errors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     let SelectPlusComponent = this.customSelectClass;
+    let customProps = {};
+    if (this.props.async) customProps.loadOptions = this.getOptions;
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
@@ -63,7 +76,9 @@ class SelectTab extends Component {
           options={options}
           multi={multi}
           placeholder={this.props.placeholder}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+          {...customProps}
+          />
         {this.fieldErrors}
       </div>
     );
