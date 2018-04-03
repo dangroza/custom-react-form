@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select, { Creatable } from 'react-select-plus';
+import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
@@ -40,12 +40,19 @@ class SelectTab extends Component {
      return errors;
   }
 
+  get customSelectClass() {
+    const { allowNew, async } = this.props;
+    if (allowNew && async) return AsyncCreatable;
+    if (async) return Async;
+    if  (allowNew) return Creatable;
+    return Select;
+  }
   render() {
     const { label, id, mandatory, options, multi, value, errors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
-    let SelectPlusComponent = (this.props.allowNew) ? Creatable : Select;
+    let SelectPlusComponent = this.customSelectClass;
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>

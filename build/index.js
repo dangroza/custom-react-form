@@ -47989,7 +47989,7 @@ var SelectTab = function (_Component) {
       ) : '';
       var labelClass = ['label-section'];
       labelClass.push(errors && errors.length > 0 ? 'error' : '');
-      var SelectPlusComponent = this.props.allowNew ? _reactSelectPlus.Creatable : _reactSelectPlus2.default;
+      var SelectPlusComponent = this.customSelectClass;
       return _react2.default.createElement(
         'div',
         { className: 'form-group' },
@@ -48012,6 +48012,18 @@ var SelectTab = function (_Component) {
           onChange: this.onChange }),
         this.fieldErrors
       );
+    }
+  }, {
+    key: 'customSelectClass',
+    get: function get() {
+      var _props2 = this.props,
+          allowNew = _props2.allowNew,
+          async = _props2.async;
+
+      if (allowNew && async) return _reactSelectPlus.AsyncCreatable;
+      if (async) return _reactSelectPlus.Async;
+      if (allowNew) return _reactSelectPlus.Creatable;
+      return _reactSelectPlus2.default;
     }
   }, {
     key: 'tooltipLink',
