@@ -47931,6 +47931,7 @@ var SelectTab = function (_Component) {
     var _this = _possibleConstructorReturn(this, (SelectTab.__proto__ || Object.getPrototypeOf(SelectTab)).call(this, props));
 
     _this.onChange = _this.onChange.bind(_this);
+    _this.getOptions = _this.getOptions.bind(_this);
     return _this;
   }
 

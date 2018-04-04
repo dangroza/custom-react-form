@@ -8,6 +8,7 @@ class SelectTab extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.getOptions = this.getOptions.bind(this);
   }
 
   onChange(selectedOption) {
