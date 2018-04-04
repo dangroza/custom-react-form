@@ -47974,9 +47974,10 @@ var SelectTab = function (_Component) {
     }
   }, {
     key: 'getOptions',
-    value: function getOptions() {
+    value: function getOptions(input) {
       if (!this.props.url) return { options: [] };
-      return fetch(this.props.url).then(function (response) {
+      var optionKey = this.props.urlParam || 'key';
+      return fetch(this.props.url + '?' + optionKey + '=' + input).then(function (response) {
         return response.json();
       }).then(function (json) {
         return { options: json };

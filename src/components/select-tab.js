@@ -49,9 +49,10 @@ class SelectTab extends Component {
     return Select;
   }
 
-  getOptions() {
+  getOptions(input) {
     if (!this.props.url) return { options: [] };
-    return fetch(this.props.url)
+    const optionKey = this.props.urlParam || 'key';
+    return fetch(`${this.props.url}?${optionKey}=${input}`)
       .then((response) => {
         return response.json();
       }).then((json) => {
