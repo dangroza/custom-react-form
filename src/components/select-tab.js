@@ -29,8 +29,12 @@ class SelectTab extends Component {
   }
 
   validationErrors(currentValue) {
-    let errors = [];
+    let errors;
+    if (this.props.customValidator) {
+      errors = this.props.customValidator(this.props, value);
+    }
     if (this.props.mandatory) {
+      errors = [];
       const mandatoryError = `${this.props.label} is required.`;
       if (Array.isArray(currentValue)) {
         if (currentValue.length < 1) { errors.push(mandatoryError); }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TooltipLink from './tooltip-link';
 
 class Password extends Component {
+  // TODO: Add validations
   render() {
     return (
       <div className="form-group">

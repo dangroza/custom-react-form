@@ -22,8 +22,11 @@ class Input extends Component {
 
   validationErrors(value) {
     let errors = [];
+    if (this.props.customValidator) {
+      errors = this.props.customValidator(this.props, value);
+    }
     if (this.props.mandatory && validator.isEmpty(value)) {
-      errors.push(`${this.props.label} is required.`);
+      errors = [`${this.props.label} is required.`];
     }
     return errors;
   }

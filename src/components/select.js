@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class Select extends Component {
+  // TODO: Update this
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -12,12 +13,9 @@ class Select extends Component {
   }
 
   render() {
-
     let labelText = this.props.type === "select" ? this.props.label : this.props.name;
-
     let selectNodes = [];
     let value = this.props.value;
-
     for (let i = 0; i < value.length; i++) {
 
       let obj = {
