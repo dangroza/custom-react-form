@@ -5,16 +5,23 @@ class Url extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.props.updateField(
+      {
+        ...this.props,
+        errors: this.validationErrors(this.props.value),
+        showErrors: false
+      }
+    );
   }
 
   onChange(event) {
     let field = event.currentTarget;
-    this.props.onChange(
+    this.props.updateField(
       {
-        type: field.type,
-        id: field.id,
+        ...this.props,
         value: field.value,
-        errors: this.validationErrors(field.value)
+        errors: this.validationErrors(field.value),
+        showErrors: true
       }
     );
   }
@@ -31,10 +38,10 @@ class Url extends Component {
   }
 
   render() {
-    const { label, id, mandatory, errors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
-    labelClass.push((errors && errors.length > 0) ? 'error' : '');
+    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
@@ -47,6 +54,7 @@ class Url extends Component {
     );
   }
   get fieldErrors(){
+    if (!this.props.showErrors) return;
     return (<div className='error'>{this.props.errors}</div>);
   }
 }

@@ -60,11 +60,11 @@ class CustomReactForm extends Component {
       childrenObj[fieldId] = obj;
     });
     this.state = {
-      isValid: false,
-      isComplete: false,
       fields: childrenObj
     };
   }
+
+
 
   classForType(type) {
     return FIELD_CLASS[type] || Input;
@@ -75,6 +75,7 @@ class CustomReactForm extends Component {
     const fieldId = modifiedField.id;
     updatedFields[fieldId].value = modifiedField.value;
     updatedFields[fieldId].errors = modifiedField.errors;
+    updatedFields[fieldId].showErrors = !!modifiedField.showErrors;
     return updatedFields;
   }
 
@@ -82,6 +83,12 @@ class CustomReactForm extends Component {
     return {
       settings: this.props.settings
     }
+  }
+
+  get isValid() {
+    return !(Object.values(this.state.fields).find(el => {
+      return el.errors && el.errors.length > 0
+    }));
   }
 
   handleFieldChange(field) {
@@ -105,7 +112,12 @@ class CustomReactForm extends Component {
           const HOC = CustomComponent(el.component);
           childNodes.push(<HOC {...el.componentProps} {...el} />);
         } else {
-          childNodes.push(<CustomComponent {...el} onChange={this.handleFieldChange}/>)
+          childNodes.push(
+            <CustomComponent
+              {...el}
+              updateField={this.handleFieldChange}
+            />
+          );
         }
       }
     }

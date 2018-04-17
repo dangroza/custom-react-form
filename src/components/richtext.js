@@ -17,18 +17,26 @@ class Richtext extends Component {
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+
+    this.props.updateField(
+      {
+        ...this.props,
+        errors: this.validationErrors(this.props.value),
+        showErrors: false
+      }
+    );
   }
 
   _handleOnChange(e) {
     const value = stateToHTML(e.getCurrentContent());
     this.setState({ editorState: e, htmlContent: value });
     const plainTextValue = new DOMParser().parseFromString(value, 'text/html').body.textContent;
-    this.props.onChange(
+    this.props.updateField(
       {
-        type: this.props.type,
-        id: this.props.id,
+        ...this.props,
         value: value,
-        errors: this.validationErrors(plainTextValue)
+        errors: this.validationErrors(plainTextValue),
+        showErrors: true
       }
     );
   }
@@ -108,10 +116,10 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
-    labelClass.push((errors && errors.length > 0) ? 'error' : '');
+    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
@@ -142,6 +150,7 @@ class Richtext extends Component {
   }
 
   get fieldErrors(){
+    if (!this.props.showErrors) return;
     return (<div className='error'>{this.props.errors}</div>);
   }
 }

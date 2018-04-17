@@ -17,7 +17,7 @@ class Checkbox extends Component {
         value: this.props.value,
       };
 
-      let node = <Input onChange={this.props.onChange} {...obj} />
+      let node = <Input {...obj} />
       valueNodes.push(node);
     }
 

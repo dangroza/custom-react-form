@@ -4,7 +4,7 @@ import Input from './input';
 class Radio extends Component {
   render() {
     let valueNodes = [];
-    let value = this.props.value;
+    let { value, name, type, ...otherProps } = this.props.value;
 
     for (let i = 0; i < value.length; i++) {
 
@@ -17,7 +17,7 @@ class Radio extends Component {
         value: this.props.value
       };
 
-      let node = <Input onChange={this.props.onChange} {...obj} />
+      let node = <Input {...obj} />
       valueNodes.push(node);
     }
 

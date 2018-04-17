@@ -9,22 +9,27 @@ class SelectTab extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
+    this.props.updateField(
+      {
+        ...this.props,
+        errors: this.validationErrors(this.props.value || ''),
+        showErrors: false
+    });
   }
 
   onChange(selectedOption) {
     let selectedValue = null;
-    console.log(selectedOption);
     if (Array.isArray(selectedOption)) {
       selectedValue = selectedOption.map(o => { return o.value });
     } else {
       selectedValue = selectedOption ? selectedOption.value : '';
     }
-    this.props.onChange(
+    this.props.updateField(
       {
-        type: this.props.type,
-        id: this.props.id,
+        ...this.props,
         value: selectedValue,
-        errors: this.validationErrors(selectedValue)
+        errors: this.validationErrors(selectedValue),
+        showErrors: true
     });
   }
 
@@ -66,10 +71,10 @@ class SelectTab extends Component {
   }
 
   render() {
-    const { label, id, mandatory, options, multi, value, errors, ...domProps} = this.props;
+    const { label, id, mandatory, options, multi, value, errors, updateField, showErrors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
-    labelClass.push((errors && errors.length > 0) ? 'error' : '');
+    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
     let SelectPlusComponent = this.customSelectClass;
     let customProps = {};
     if (this.props.async) customProps.loadOptions = this.getOptions;
@@ -96,6 +101,7 @@ class SelectTab extends Component {
   }
 
   get fieldErrors(){
+    if (!this.props.showErrors) return;
     return (<div className='error'>{this.props.errors}</div>);
   }
 }

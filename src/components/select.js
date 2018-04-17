@@ -9,7 +9,12 @@ class Select extends Component {
 
   onChange(event) {
     let field = event.target;
-    this.props.onChange({'type': field.localName, 'name': field.name}, field.value);
+    this.props.updateField({
+      type: this.props.type,
+      id: this.props.id,
+      showErrors: true,
+      value: field.value
+    });
   }
 
   render() {

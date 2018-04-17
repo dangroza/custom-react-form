@@ -6,16 +6,21 @@ class Input extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.props.updateField({
+      ...this.props,
+      showErrors: false,
+      errors: this.validationErrors(this.props.value)
+    });
   }
 
   onChange(event) {
-    let field = event.currentTarget;
-    this.props.onChange(
+    let value = event.currentTarget.value;
+    this.props.updateField(
       {
-        type: field.type,
-        id: field.id,
-        value: field.value,
-        errors: this.validationErrors(field.value)
+        ...this.props,
+        value: value,
+        errors: this.validationErrors(value),
+        showErrors: true
       }
     );
   }
@@ -32,10 +37,10 @@ class Input extends Component {
   }
 
   render() {
-    const { label, id, mandatory, errors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
-    labelClass.push((errors && errors.length > 0) ? 'error' : '');
+    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
@@ -53,6 +58,7 @@ class Input extends Component {
   }
 
   get fieldErrors(){
+    if (!this.props.showErrors) return;
     return (<div className='error'>{this.props.errors}</div>);
   }
 }

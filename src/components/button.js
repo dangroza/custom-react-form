@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Button extends Component {
   render() {
-    const { disabled, label, onClick, id, buttonTag, ...domProps } = this.props;
+    const { disabled, label, onClick, id, buttonTag, updateField, showErrors, ...domProps } = this.props;
     const disabledAttribute = disabled ? 'disabled' : '';
     return (
       <this.props.buttonTag
