@@ -9,7 +9,7 @@ class Url extends Component {
       {
         ...this.props,
         errors: this.validationErrors(this.props.value),
-        showErrors: false
+        showErrors: this.props.showErrors
       }
     );
   }
