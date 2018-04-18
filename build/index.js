@@ -16801,6 +16801,7 @@ var CustomReactForm = function (_Component) {
         if (fields.hasOwnProperty(key)) {
           var el = fields[key];
           el.id = key;
+          el.showErrors = this.props.showAllErrors || el.showErrors;
           var CustomComponent = this.classForType(el.type);
           if (el.type == 'hoc') {
             var HOC = CustomComponent(el.component);
@@ -51606,7 +51607,7 @@ var Url = function (_Component) {
     _this.onChange = _this.onChange.bind(_this);
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: false
+      showErrors: _this.props.showErrors
     }));
     return _this;
   }

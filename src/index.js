@@ -107,6 +107,7 @@ class CustomReactForm extends Component {
       if (fields.hasOwnProperty(key)) {
         let el = fields[key];
         el.id = key;
+        el.showErrors = this.props.showAllErrors || el.showErrors;
         const CustomComponent = this.classForType(el.type);
         if (el.type == 'hoc') {
           const HOC = CustomComponent(el.component);
