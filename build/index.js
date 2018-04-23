@@ -16788,7 +16788,7 @@ var CustomReactForm = function (_Component) {
       updatedFields[fieldId].value = modifiedField.value;
       updatedFields[fieldId].errors = modifiedField.errors;
       updatedFields[fieldId].showErrors = !!modifiedField.showErrors;
-      return updatedFields;
+      return Object.values(updatedFields);
     }
   }, {
     key: 'handleFieldChange',
