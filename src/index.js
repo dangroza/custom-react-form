@@ -53,21 +53,26 @@ class CustomReactForm extends Component {
   constructor(props) {
     super(props);
     this.handleFieldChange = this.handleFieldChange.bind(this);
-    let childrenObj = {};
-    this.props.fields.forEach(function (el, i) {
-      const fieldId = el.id || randomInt();
-      let obj = { ...el, key: fieldId };
-      childrenObj[fieldId] = obj;
-    });
     this.state = {
-      fields: childrenObj
+      fields: this.updatedFields(this.props.fields)
     };
   }
 
+  updatedFields(fields) {
+    let childrenObj = {};
+    fields.forEach(function (el, i) {
+      const fieldId = el.id || randomInt();
+      childrenObj[fieldId] = { ...el, key: fieldId };
+    });
 
+    return childrenObj;
+  }
 
   classForType(type) {
     return FIELD_CLASS[type] || Input;
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ fields: this.updatedFields(nextProps.fields) });
   }
 
   updateFields(fields, modifiedField) {
@@ -92,9 +97,9 @@ class CustomReactForm extends Component {
   }
 
   handleFieldChange(field) {
-    let updatedFields = this.updateFields(this.state.fields, field);
+    let changedFields = this.updateFields(this.state.fields, field);
     this.props.updateParentCallback({
-      fields: updatedFields,
+      fields: changedFields,
       ...this.readOnlyAttributes
     });
   }

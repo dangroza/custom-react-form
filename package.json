@@ -1,6 +1,6 @@
 {
   "name": "custom-react-form",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Custom React Form",
   "main": "build/index.js",
   "peerDependencies": {
@@ -34,7 +34,7 @@
     "type": "git",
     "url": "git://github.com/dangroza/custom-react-form.git"
   },
-  "license": "(MIT OR Apache-2.0)",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",

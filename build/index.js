@@ -16753,22 +16753,32 @@ var CustomReactForm = function (_Component) {
     var _this = _possibleConstructorReturn(this, (CustomReactForm.__proto__ || Object.getPrototypeOf(CustomReactForm)).call(this, props));
 
     _this.handleFieldChange = _this.handleFieldChange.bind(_this);
-    var childrenObj = {};
-    _this.props.fields.forEach(function (el, i) {
-      var fieldId = el.id || (0, _utils.randomInt)();
-      var obj = _extends({}, el, { key: fieldId });
-      childrenObj[fieldId] = obj;
-    });
     _this.state = {
-      fields: childrenObj
+      fields: _this.updatedFields(_this.props.fields)
     };
     return _this;
   }
 
   _createClass(CustomReactForm, [{
+    key: 'updatedFields',
+    value: function updatedFields(fields) {
+      var childrenObj = {};
+      fields.forEach(function (el, i) {
+        var fieldId = el.id || (0, _utils.randomInt)();
+        childrenObj[fieldId] = _extends({}, el, { key: fieldId });
+      });
+
+      return childrenObj;
+    }
+  }, {
     key: 'classForType',
     value: function classForType(type) {
       return FIELD_CLASS[type] || _input2.default;
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState({ fields: this.updatedFields(nextProps.fields) });
     }
   }, {
     key: 'updateFields',
@@ -16783,9 +16793,9 @@ var CustomReactForm = function (_Component) {
   }, {
     key: 'handleFieldChange',
     value: function handleFieldChange(field) {
-      var updatedFields = this.updateFields(this.state.fields, field);
+      var changedFields = this.updateFields(this.state.fields, field);
       this.props.updateParentCallback(_extends({
-        fields: updatedFields
+        fields: changedFields
       }, this.readOnlyAttributes));
     }
   }, {
