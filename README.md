@@ -9,3 +9,7 @@ How to install:
 ```
 % npm i custom-react-form
 ```
+
+
+TODO:
+ * public-DraftEditorPlaceholder-inner on click should change focus to input
