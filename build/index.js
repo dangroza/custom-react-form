@@ -36938,13 +36938,12 @@ var File = function (_Component) {
     key: 'onChange',
     value: function onChange(event) {
       var field = event.currentTarget;
-      this.props.onChange({
-        type: field.type,
-        id: field.id,
+      this.props.updateField(_extends({}, this.props, {
         value: field.value,
         files: field.files,
-        errors: this.validationErrors(field.value, field.files)
-      });
+        errors: this.validationErrors(field.value, field.files),
+        showErrors: true
+      }));
     }
   }, {
     key: 'validationErrors',

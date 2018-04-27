@@ -9,13 +9,13 @@ class File extends Component {
 
   onChange(event) {
     let field = event.currentTarget;
-    this.props.onChange(
+    this.props.updateField(
       {
-        type: field.type,
-        id: field.id,
+        ...this.props,
         value: field.value,
         files: field.files,
-        errors: this.validationErrors(field.value, field.files)
+        errors: this.validationErrors(field.value, field.files),
+        showErrors: true
       }
     );
   }
