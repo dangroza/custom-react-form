@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Input from './components/input';
+import File from './components/file';
 import Textarea from './components/textarea';
 import Richtext from './components/richtext';
 import Radio from './components/radio';
@@ -40,6 +41,7 @@ const FIELD_CLASS = {
   'selectTab': SelectTab,
   'select': Select,
   'text': Input,
+  'file': File,
   'url': Url,
   'password': Password,
   'textarea': Textarea,
@@ -79,6 +81,9 @@ class CustomReactForm extends Component {
     const updatedFields = { ...fields };
     const fieldId = modifiedField.id;
     updatedFields[fieldId].value = modifiedField.value;
+    if (modifiedField.files) {
+      updatedFields[fieldId].files = modifiedField.files;
+    }
     updatedFields[fieldId].errors = modifiedField.errors;
     updatedFields[fieldId].showErrors = !!modifiedField.showErrors;
     return Object.values(updatedFields);
