@@ -9,10 +9,11 @@ class SelectTab extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
+    const currentValue = (typeof this.props.value == 'string') ? this.props.value : this.formattedValue(this.props.value);
     this.props.updateField(
       {
         ...this.props,
-        errors: this.validationErrors(this.props.value || ''),
+        errors: this.validationErrors(currentValue),
         showErrors: false
     });
   }
@@ -20,6 +21,18 @@ class SelectTab extends Component {
   keyValueObject(object) {
     return (({ label, value }) => ({ label, value }))(object);
   }
+
+  formattedValue(val) {
+    let formattedValue = null;
+    if (Array.isArray(val)) {
+      formattedValue = val.map(o => { return o.value });
+    } else {
+      formattedValue = val ? val.value : '';
+    }
+
+    return formattedValue;
+  }
+
   onChange(selectedOption) {
     let selectedValue = null;
     let selectedObj = null;

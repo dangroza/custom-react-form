@@ -48117,8 +48117,9 @@ var SelectTab = function (_Component) {
 
     _this.onChange = _this.onChange.bind(_this);
     _this.getOptions = _this.getOptions.bind(_this);
+    var currentValue = typeof _this.props.value == 'string' ? _this.props.value : _this.formattedValue(_this.props.value);
     _this.props.updateField(_extends({}, _this.props, {
-      errors: _this.validationErrors(_this.props.value || ''),
+      errors: _this.validationErrors(currentValue),
       showErrors: false
     }));
     return _this;
@@ -48132,6 +48133,20 @@ var SelectTab = function (_Component) {
             value = _ref.value;
         return { label: label, value: value };
       }(object);
+    }
+  }, {
+    key: 'formattedValue',
+    value: function formattedValue(val) {
+      var formattedValue = null;
+      if (Array.isArray(val)) {
+        formattedValue = val.map(function (o) {
+          return o.value;
+        });
+      } else {
+        formattedValue = val ? val.value : '';
+      }
+
+      return formattedValue;
     }
   }, {
     key: 'onChange',
