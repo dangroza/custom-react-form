@@ -36962,7 +36962,9 @@ var File = function (_Component) {
           id = _props.id,
           mandatory = _props.mandatory,
           errors = _props.errors,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors']);
+          showErrors = _props.showErrors,
+          updateField = _props.updateField,
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'showErrors', 'updateField']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -48134,10 +48136,10 @@ var SelectTab = function (_Component) {
         selectedValue = selectedOption ? selectedOption.value : '';
       }
       this.props.updateField(_extends({}, this.props, {
-        value: selectedValue,
+        value: selectedOption,
         errors: this.validationErrors(selectedValue),
         showErrors: true
-      }));
+      })); // TODO: Will the validationErrors work for array?
     }
   }, {
     key: 'validationErrors',

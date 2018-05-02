@@ -29,7 +29,7 @@ class File extends Component {
   }
 
   render() {
-    const { label, id, mandatory, errors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, showErrors, updateField, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');

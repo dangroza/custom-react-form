@@ -27,10 +27,10 @@ class SelectTab extends Component {
     this.props.updateField(
       {
         ...this.props,
-        value: selectedValue,
+        value: selectedOption,
         errors: this.validationErrors(selectedValue),
         showErrors: true
-    });
+    }); // TODO: Will the validationErrors work for array?
   }
 
   validationErrors(currentValue) {
