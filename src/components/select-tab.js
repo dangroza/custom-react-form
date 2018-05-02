@@ -17,20 +17,26 @@ class SelectTab extends Component {
     });
   }
 
+  keyValueObject(object) {
+    return (({ label, value }) => ({ label, value }))(object);
+  }
   onChange(selectedOption) {
     let selectedValue = null;
+    let selectedObj = null;
     if (Array.isArray(selectedOption)) {
       selectedValue = selectedOption.map(o => { return o.value });
+      selectedObj = selectedOption.map(o => { return this.keyValueObject(o) });
     } else {
       selectedValue = selectedOption ? selectedOption.value : '';
+      selectedObj = selectedOption ? this.keyValueObject(selectedOption) : '';
     }
     this.props.updateField(
       {
         ...this.props,
-        value: selectedOption,
+        value: selectedObj,
         errors: this.validationErrors(selectedValue),
         showErrors: true
-    }); // TODO: Will the validationErrors work for array?
+    });
   }
 
   validationErrors(currentValue) {

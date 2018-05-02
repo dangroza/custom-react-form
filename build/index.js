@@ -48125,21 +48125,37 @@ var SelectTab = function (_Component) {
   }
 
   _createClass(SelectTab, [{
+    key: 'keyValueObject',
+    value: function keyValueObject(object) {
+      return function (_ref) {
+        var label = _ref.label,
+            value = _ref.value;
+        return { label: label, value: value };
+      }(object);
+    }
+  }, {
     key: 'onChange',
     value: function onChange(selectedOption) {
+      var _this2 = this;
+
       var selectedValue = null;
+      var selectedObj = null;
       if (Array.isArray(selectedOption)) {
         selectedValue = selectedOption.map(function (o) {
           return o.value;
         });
+        selectedObj = selectedOption.map(function (o) {
+          return _this2.keyValueObject(o);
+        });
       } else {
         selectedValue = selectedOption ? selectedOption.value : '';
+        selectedObj = selectedOption ? this.keyValueObject(selectedOption) : '';
       }
       this.props.updateField(_extends({}, this.props, {
-        value: selectedOption,
+        value: selectedObj,
         errors: this.validationErrors(selectedValue),
         showErrors: true
-      })); // TODO: Will the validationErrors work for array?
+      }));
     }
   }, {
     key: 'validationErrors',
