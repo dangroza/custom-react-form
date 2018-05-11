@@ -28,18 +28,23 @@ class File extends Component {
     return errors;
   }
 
+  get fileName() {
+    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : this.props.placeholder;
+  }
+
   render() {
-    const { label, id, mandatory, errors, showErrors, updateField, ...domProps} = this.props;
+    const { label, id, value, mandatory, errors, showErrors, updateField, placeholder, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
       <div className="form-group">
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
-        <input id={id}
+        <span className={labelClass.join(' ')} >{label} {mandatoryMark} </span>
+        <input className='input-file' id={id} 
           {...domProps}
           onChange={this.onChange}
         />
+        <label className={labelClass.join(' ')} htmlFor={id}>{this.fileName}</label>
         {this.fieldErrors}
       </div>
     );

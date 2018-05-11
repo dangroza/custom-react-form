@@ -19,7 +19,6 @@
 .richtext .public-DraftEditorPlaceholder-root
   .public-DraftEditorPlaceholder-inner {
   position: absolute;
-  z-index: 999;
 }
 
 

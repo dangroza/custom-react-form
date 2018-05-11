@@ -36960,11 +36960,13 @@ var File = function (_Component) {
       var _props = this.props,
           label = _props.label,
           id = _props.id,
+          value = _props.value,
           mandatory = _props.mandatory,
           errors = _props.errors,
           showErrors = _props.showErrors,
           updateField = _props.updateField,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'showErrors', 'updateField']);
+          placeholder = _props.placeholder,
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'value', 'mandatory', 'errors', 'showErrors', 'updateField', 'placeholder']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -36977,18 +36979,29 @@ var File = function (_Component) {
         'div',
         { className: 'form-group' },
         _react2.default.createElement(
-          'label',
-          { className: labelClass.join(' '), htmlFor: id },
+          'span',
+          { className: labelClass.join(' ') },
           label,
           ' ',
-          mandatoryMark
+          mandatoryMark,
+          ' '
         ),
-        _react2.default.createElement('input', _extends({ id: id
+        _react2.default.createElement('input', _extends({ className: 'input-file', id: id
         }, domProps, {
           onChange: this.onChange
         })),
+        _react2.default.createElement(
+          'label',
+          { className: labelClass.join(' '), htmlFor: id },
+          this.fileName
+        ),
         this.fieldErrors
       );
+    }
+  }, {
+    key: 'fileName',
+    get: function get() {
+      return this.props.files && this.props.files[0] ? this.props.files[0].name : this.props.placeholder;
     }
   }, {
     key: 'fieldErrors',
@@ -47702,7 +47715,7 @@ exports = module.exports = __webpack_require__(54)(false);
 
 
 // module
-exports.push([module.i, ".richtext {\n  background: #fff;\n  border: 1px solid #ddd;\n  font-family: 'Georgia', serif;\n  font-size: 14px;\n  padding: 0;\n}\n\n.richtext .editor {\n  cursor: text;\n  font-size: 14px;\n  padding: 8px 5px 5px 5px;\n}\n\n.richtext .public-DraftEditorPlaceholder-root {\n  position: relative;\n}\n\n.richtext .public-DraftEditorPlaceholder-root\n  .public-DraftEditorPlaceholder-inner {\n  position: absolute;\n  z-index: 999;\n}\n\n\n.richtext .public-DraftEditor-content {\n  min-height: 100px;\n  max-height: 200px;\n  overflow-y: auto;\n}\n\n.richtext .hide-placeholder .public-DraftEditorPlaceholder-root {\n  display: none;\n}\n\n.richtext .blockquote {\n  border-left: 5px solid #eee;\n  color: #666;\n  font-family: 'Hoefler Text', 'Georgia', serif;\n  font-style: italic;\n  margin: 16px 0;\n  padding: 10px 20px;\n}\n\n.richtext .public-DraftStyleDefault-pre {\n  background-color: rgba(0, 0, 0, 0.05);\n  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;\n  font-size: 16px;\n  padding: 20px;\n}\n\n.richtext .controls {\n  font-family: 'Helvetica', sans-serif;\n  font-size: 14px;\n  margin-bottom: 5px;\n  user-select: none;\n}\n\n.richtext .style-button {\n  color: #999;\n  cursor: pointer;\n  margin-right: 16px;\n  padding: 2px 0;\n  display: inline-block;\n}\n.richtext .controls {\n  background-color: whitesmoke;\n  padding: 4px;\n  margin: 0;\n  border-width: 0 0 1px 0;\n  border-style: solid;\n  border-color: #ddd;\n  border-radius: 8px 8px 0 0;\n}\n.richtext .active-button {\n  color: #5890ff;\n}\n.richtext .controls .button-group {\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, ".richtext {\n  background: #fff;\n  border: 1px solid #ddd;\n  font-family: 'Georgia', serif;\n  font-size: 14px;\n  padding: 0;\n}\n\n.richtext .editor {\n  cursor: text;\n  font-size: 14px;\n  padding: 8px 5px 5px 5px;\n}\n\n.richtext .public-DraftEditorPlaceholder-root {\n  position: relative;\n}\n\n.richtext .public-DraftEditorPlaceholder-root\n  .public-DraftEditorPlaceholder-inner {\n  position: absolute;\n}\n\n\n.richtext .public-DraftEditor-content {\n  min-height: 100px;\n  max-height: 200px;\n  overflow-y: auto;\n}\n\n.richtext .hide-placeholder .public-DraftEditorPlaceholder-root {\n  display: none;\n}\n\n.richtext .blockquote {\n  border-left: 5px solid #eee;\n  color: #666;\n  font-family: 'Hoefler Text', 'Georgia', serif;\n  font-style: italic;\n  margin: 16px 0;\n  padding: 10px 20px;\n}\n\n.richtext .public-DraftStyleDefault-pre {\n  background-color: rgba(0, 0, 0, 0.05);\n  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;\n  font-size: 16px;\n  padding: 20px;\n}\n\n.richtext .controls {\n  font-family: 'Helvetica', sans-serif;\n  font-size: 14px;\n  margin-bottom: 5px;\n  user-select: none;\n}\n\n.richtext .style-button {\n  color: #999;\n  cursor: pointer;\n  margin-right: 16px;\n  padding: 2px 0;\n  display: inline-block;\n}\n.richtext .controls {\n  background-color: whitesmoke;\n  padding: 4px;\n  margin: 0;\n  border-width: 0 0 1px 0;\n  border-style: solid;\n  border-color: #ddd;\n  border-radius: 8px 8px 0 0;\n}\n.richtext .active-button {\n  color: #5890ff;\n}\n.richtext .controls .button-group {\n  display: inline-block;\n}\n", ""]);
 
 // exports
 
@@ -52028,7 +52041,7 @@ exports = module.exports = __webpack_require__(54)(false);
 
 
 // module
-exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-group {\n  margin-bottom: 10px;\n}\n.form-group .label-section {\n  display: block;\n}\n\ntextarea {\n  width: 100%;\n  display: block;\n  border: 1px solid #d9d9d9;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n\n.tooltip-link {\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: sans-serif;\n}\ninput {\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  border-radius: 4px;\n  border: 1px solid #d9d9d9;\n  color: #333;\n}\n\n.form-container {\n  width: 40%;\n  margin: 20px auto;\n}\n\n.form-group {\n  margin-bottom: 10px;\n}\n.form-group .label-section {\n  display: block;\n  font-weight: bold;\n  margin-bottom: 5px;\n}\n\n.form-group .input-file {\n  width: 0.1px;\n\theight: 0.1px;\n\topacity: 0;\n\toverflow: hidden;\n\tposition: absolute;\n\tz-index: -1;\n}\n\n.form-group .input-file + label {\n  cursor: pointer;\n  border: 1px solid #d9d9d9;\n  border-radius: 3px;\n  font-weight: normal;\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  height: 36px;\n  color: #333;\n}\n\ntextarea {\n  width: 100%;\n  display: block;\n  border: 1px solid #d9d9d9;\n}\n\n.error {\n  color: #d0021b;\n}\n\n.select-tab input {\n  padding: 0;\n}\n\n.Select--multi .Select-value {\n  color: #555;\n  background-color: #eee;\n  border-radius: 2px;\n  border: 1px solid #ccc;\n}\n\n.tooltip-link {\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 

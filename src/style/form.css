@@ -21,6 +21,29 @@ input {
 }
 .form-group .label-section {
   display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group .input-file {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.form-group .input-file + label {
+  cursor: pointer;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  font-weight: normal;
+  line-height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 36px;
+  color: #333;
 }
 
 textarea {
