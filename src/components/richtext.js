@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
+import {Editor, EditorState, ContentState, RichUtils, getDefaultKeyBinding, convertFromHTML} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import validator from 'validator';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -10,7 +10,17 @@ import '../style/richtext.css';
 class Richtext extends Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() }; // set existing
+
+    const blocksFromHTML = convertFromHTML(this.props.value);
+    const existingState = ContentState.createFromBlockArray(
+      blocksFromHTML.contentBlocks,
+      blocksFromHTML.entityMap
+    );
+
+    this.state = {
+      editorState: EditorState.createWithContent(existingState),
+    };
+
     this.onChange = this._handleOnChange.bind(this);
     //this.focus = () => this.refs.editor.focus();
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -116,7 +126,7 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, value, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');

@@ -37100,10 +37100,11 @@ var Textarea = function (_Component) {
       var _props = this.props,
           label = _props.label,
           id = _props.id,
+          value = _props.value,
           mandatory = _props.mandatory,
           errors = _props.errors,
           showErrors = _props.showErrors,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'showErrors']);
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'value', 'mandatory', 'errors', 'showErrors']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -37129,6 +37130,7 @@ var Textarea = function (_Component) {
           id: id,
           rows: '3',
           onChange: this.onChange,
+          value: value,
           placeholder: this.props.placeholder }),
         this.fieldErrors
       );
@@ -37214,7 +37216,13 @@ var Richtext = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Richtext.__proto__ || Object.getPrototypeOf(Richtext)).call(this, props));
 
-    _this.state = { editorState: _draftJs.EditorState.createEmpty() }; // set existing
+    var blocksFromHTML = (0, _draftJs.convertFromHTML)(_this.props.value);
+    var existingState = _draftJs.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+
+    _this.state = {
+      editorState: _draftJs.EditorState.createWithContent(existingState)
+    };
+
     _this.onChange = _this._handleOnChange.bind(_this);
     //this.focus = () => this.refs.editor.focus();
     _this.handleKeyCommand = _this._handleKeyCommand.bind(_this);
@@ -37305,7 +37313,8 @@ var Richtext = function (_Component) {
           errors = _props.errors,
           updateField = _props.updateField,
           showErrors = _props.showErrors,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors']);
+          value = _props.value,
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'value']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',

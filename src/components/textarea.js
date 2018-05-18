@@ -39,7 +39,7 @@ class Textarea extends Component {
   }
 
   render() {
-    const { label, id, mandatory, errors, showErrors, ...domProps} = this.props;
+    const { label, id, value, mandatory, errors, showErrors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = [];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
@@ -51,6 +51,7 @@ class Textarea extends Component {
           id={id}
           rows="3"
           onChange={this.onChange}
+          value={value}
           placeholder={this.props.placeholder} />
           {this.fieldErrors}
       </div>
