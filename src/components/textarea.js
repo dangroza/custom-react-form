@@ -28,11 +28,12 @@ class Textarea extends Component {
   }
 
   validationErrors(value) {
+    const initialValue = value || '';
     let errors = [];
     if (this.props.customValidator) {
-      errors = this.props.customValidator(this.props, value);
+      errors = this.props.customValidator(this.props, initialValue);
     }
-    if (this.props.mandatory && validator.isEmpty(value)) {
+    if (this.props.mandatory && validator.isEmpty(initialValue)) {
       errors = [`${this.props.label} is required.`];
     }
     return errors;

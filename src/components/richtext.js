@@ -11,14 +11,8 @@ class Richtext extends Component {
   constructor(props) {
     super(props);
 
-    const blocksFromHTML = convertFromHTML(this.props.value);
-    const existingState = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap
-    );
-
     this.state = {
-      editorState: EditorState.createWithContent(existingState),
+      editorState: this.initialEditorState,
     };
 
     this.onChange = this._handleOnChange.bind(this);
@@ -37,6 +31,19 @@ class Richtext extends Component {
     );
   }
 
+  get initialEditorState(){
+    if (this.props.value) {
+      const blocksFromHTML = convertFromHTML(this.props.value);
+      const existingState = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap
+      );
+      return EditorState.createWithContent(existingState);
+    } else {
+      return EditorState.createEmpty();
+    }
+  }
+
   _handleOnChange(e) {
     const value = stateToHTML(e.getCurrentContent());
     this.setState({ editorState: e, htmlContent: value });
@@ -52,11 +59,12 @@ class Richtext extends Component {
   }
 
   validationErrors(value) {
+    const initialValue = value || '';
     let errors = [];
     if (this.props.customValidator) {
-      errors = this.props.customValidator(this.props, value);
+      errors = this.props.customValidator(this.props, initialValue);
     }
-    if (this.props.mandatory && validator.isEmpty(value)) {
+    if (this.props.mandatory && validator.isEmpty(initialValue)) {
       errors = [`${this.props.label} is required.`];
     }
     return errors;
@@ -126,7 +134,7 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, updateField, showErrors, value, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');

@@ -37085,11 +37085,12 @@ var Textarea = function (_Component) {
   }, {
     key: 'validationErrors',
     value: function validationErrors(value) {
+      var initialValue = value || '';
       var errors = [];
       if (this.props.customValidator) {
-        errors = this.props.customValidator(this.props, value);
+        errors = this.props.customValidator(this.props, initialValue);
       }
-      if (this.props.mandatory && _validator2.default.isEmpty(value)) {
+      if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
         errors = [this.props.label + ' is required.'];
       }
       return errors;
@@ -37216,11 +37217,8 @@ var Richtext = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Richtext.__proto__ || Object.getPrototypeOf(Richtext)).call(this, props));
 
-    var blocksFromHTML = (0, _draftJs.convertFromHTML)(_this.props.value);
-    var existingState = _draftJs.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
-
     _this.state = {
-      editorState: _draftJs.EditorState.createWithContent(existingState)
+      editorState: _this.initialEditorState
     };
 
     _this.onChange = _this._handleOnChange.bind(_this);
@@ -37252,11 +37250,12 @@ var Richtext = function (_Component) {
   }, {
     key: 'validationErrors',
     value: function validationErrors(value) {
+      var initialValue = value || '';
       var errors = [];
       if (this.props.customValidator) {
-        errors = this.props.customValidator(this.props, value);
+        errors = this.props.customValidator(this.props, initialValue);
       }
-      if (this.props.mandatory && _validator2.default.isEmpty(value)) {
+      if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
         errors = [this.props.label + ' is required.'];
       }
       return errors;
@@ -37313,8 +37312,7 @@ var Richtext = function (_Component) {
           errors = _props.errors,
           updateField = _props.updateField,
           showErrors = _props.showErrors,
-          value = _props.value,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'value']);
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -37358,6 +37356,17 @@ var Richtext = function (_Component) {
         ),
         this.fieldErrors
       );
+    }
+  }, {
+    key: 'initialEditorState',
+    get: function get() {
+      if (this.props.value) {
+        var blocksFromHTML = (0, _draftJs.convertFromHTML)(this.props.value);
+        var existingState = _draftJs.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+        return _draftJs.EditorState.createWithContent(existingState);
+      } else {
+        return _draftJs.EditorState.createEmpty();
+      }
     }
   }, {
     key: '_styleControls',
