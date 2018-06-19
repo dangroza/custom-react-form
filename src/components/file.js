@@ -33,14 +33,14 @@ class File extends Component {
   }
 
   render() {
-    const { label, id, value, mandatory, errors, showErrors, updateField, placeholder, ...domProps} = this.props;
+    const { label, id, value, mandatory, errors, showErrors, updateField, placeholder, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((errors && errors.length > 0) ? 'error' : '');
     return (
-      <div className="form-group">
+      <div className={`form-group ${formGroupClassName}`}>
         <span className={labelClass.join(' ')} >{label} {mandatoryMark} </span>
-        <input className='input-file' id={id} 
+        <input className='input-file' id={id}
           {...domProps}
           onChange={this.onChange}
         />
@@ -53,5 +53,9 @@ class File extends Component {
     return (<div className='error'>{this.props.errors}</div>);
   }
 }
+
+File.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default File;

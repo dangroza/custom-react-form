@@ -15,11 +15,15 @@ class Container extends Component {
 
   render() {
     return (
-      <div className="form-group container">
+      <div className={`form-group container ${this.props.formGroupClassName}`}>
         {this.contentFromProps}
       </div>
     );
   }
 }
+
+Container.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default Container;

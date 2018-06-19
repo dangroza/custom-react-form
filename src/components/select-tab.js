@@ -90,7 +90,7 @@ class SelectTab extends Component {
   }
 
   render() {
-    const { label, id, mandatory, options, multi, value, errors, updateField, showErrors, ...domProps} = this.props;
+    const { label, id, mandatory, options, multi, value, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
@@ -98,7 +98,7 @@ class SelectTab extends Component {
     let customProps = {};
     if (this.props.async) customProps.loadOptions = this.getOptions;
     return (
-      <div className="form-group">
+      <div className={`form-group ${formGroupClassName}`}>
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <SelectPlusComponent
           name={this.props.name}
@@ -124,5 +124,9 @@ class SelectTab extends Component {
     return (<div className='error'>{this.props.errors}</div>);
   }
 }
+
+SelectTab.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default SelectTab;

@@ -134,12 +134,12 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
     return (
-      <div className="form-group">
+      <div className={`form-group ${formGroupClassName}`}>
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <div className="richtext">
           {this._styleControls}
@@ -250,6 +250,10 @@ const InlineStyleControls = (props) => {
       )}
     </div>
   );
+};
+
+Richtext.defaultProps = {
+  formGroupClassName: ''
 };
 
 export default Richtext;

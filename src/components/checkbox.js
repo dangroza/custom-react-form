@@ -22,12 +22,16 @@ class Checkbox extends Component {
     }
 
     return (
-      <div className="form-group">
+      <div className={`form-group ${this.props.formGroupClassName}`}>
         <div><h4>{this.props.label}</h4></div>
         {valueNodes}
       </div>
     );
   }
 }
+
+Checkbox.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default Checkbox;

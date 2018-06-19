@@ -32,7 +32,7 @@ class Select extends Component {
     }
 
     return (
-      <div className="form-group">
+      <div className={`form-group ${this.props.formGroupClassName}`}>
         <label>{labelText}</label>
         <select name={this.props.name} onChange={this.onChange}>
           {selectNodes}
@@ -41,5 +41,9 @@ class Select extends Component {
     );
   }
 }
+
+Select.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default Select;
