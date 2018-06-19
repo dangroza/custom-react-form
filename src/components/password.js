@@ -5,7 +5,7 @@ class Password extends Component {
   // TODO: Add validations
   render() {
     return (
-      <div className="form-group">
+      <div className={`form-group ${this.props.formGroupClassName}`}>
         <label htmlFor={this.props.id}>{this.props.label} {this.tooltipLink}</label>
         <input type={this.props.type} placeholder={this.props.placeholder}/>
       </div>
@@ -16,5 +16,9 @@ class Password extends Component {
     return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
+
+Password.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default Password;

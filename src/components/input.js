@@ -37,12 +37,12 @@ class Input extends Component {
   }
 
   render() {
-    const { label, id, mandatory, errors, updateField, showErrors, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = ['label-section'];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
     return (
-      <div className="form-group">
+      <div className={`form-group ${formGroupClassName}`}>
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <input id={id}
           {...domProps}
@@ -62,5 +62,9 @@ class Input extends Component {
     return (<div className='error'>{this.props.errors}</div>);
   }
 }
+
+Input.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default Input;

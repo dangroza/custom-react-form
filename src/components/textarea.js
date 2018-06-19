@@ -40,13 +40,13 @@ class Textarea extends Component {
   }
 
   render() {
-    const { label, id, value, mandatory, errors, showErrors, ...domProps} = this.props;
+    const { label, id, value, mandatory, errors, showErrors, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let labelClass = [];
     labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
 
     return (
-      <div className="form-group">
+      <div className={`form-group ${formGroupClassName}`}>
         <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <textarea
           id={id}
@@ -68,5 +68,9 @@ class Textarea extends Component {
       return (<div className='error'>{this.props.errors}</div>);
     }
 }
+
+Textarea.defaultProps = {
+  formGroupClassName: ''
+};
 
 export default Textarea;
