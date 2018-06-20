@@ -32,7 +32,7 @@ class Url extends Component {
       errors.push(`${this.props.label} is required.`);
     }
     if (!validator.isEmpty(value) && !validator.isURL(value)) {
-      errors.push(`"${value}" is not a valid url.`);
+      errors.push('Please enter a valid URL');
     }
     return errors;
   }
