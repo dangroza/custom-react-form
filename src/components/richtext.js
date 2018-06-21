@@ -65,7 +65,7 @@ class Richtext extends Component {
       errors = this.props.customValidator(this.props, initialValue);
     }
     if (this.props.mandatory && validator.isEmpty(initialValue)) {
-      errors = [`${this.props.label} is required.`];
+      errors = [`${this.props.label} is required`];
     }
     return errors;
   }
@@ -134,13 +134,14 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
+    const { label, id, mandatory, errors, showErrors, formGroupClassName } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
-    let labelClass = ['label-section'];
-    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
+    let formGroupClasses = ['form-group', formGroupClassName];
+    formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
+
     return (
-      <div className={`form-group ${formGroupClassName}`}>
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+      <div className={formGroupClasses.join(' ')}>
+        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <div className="richtext">
           {this._styleControls}
           <div className={className} onClick={this.focus}>
@@ -158,18 +159,13 @@ class Richtext extends Component {
             />
           </div>
         </div>
-        {this.fieldErrors}
+        {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
   }
 
   get tooltipLink() {
     return (<TooltipLink tooltip={this.props.tooltip} />);
-  }
-
-  get fieldErrors(){
-    if (!this.props.showErrors) return;
-    return (<div className='error'>{this.props.errors}</div>);
   }
 }
 
@@ -253,7 +249,8 @@ const InlineStyleControls = (props) => {
 };
 
 Richtext.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 export default Richtext;

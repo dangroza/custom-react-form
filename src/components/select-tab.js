@@ -59,7 +59,7 @@ class SelectTab extends Component {
     }
     if (this.props.mandatory) {
       errors = [];
-      const mandatoryError = `${this.props.label} is required.`;
+      const mandatoryError = `${this.props.label} is required`;
       if (Array.isArray(currentValue)) {
         if (currentValue.length < 1) { errors.push(mandatoryError); }
       } else {
@@ -90,16 +90,16 @@ class SelectTab extends Component {
   }
 
   render() {
-    const { label, id, mandatory, options, multi, value, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
+    const { label, id, mandatory, options, multi, value, errors, showErrors, formGroupClassName} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
-    let labelClass = ['label-section'];
-    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
+    let formGroupClasses = ['form-group', formGroupClassName];
+    formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
     let SelectPlusComponent = this.customSelectClass;
     let customProps = {};
     if (this.props.async) customProps.loadOptions = this.getOptions;
     return (
-      <div className={`form-group ${formGroupClassName}`}>
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+      <div className={formGroupClasses.join(' ')}>
+        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <SelectPlusComponent
           name={this.props.name}
           className="select-tab"
@@ -110,7 +110,7 @@ class SelectTab extends Component {
           onChange={this.onChange}
           {...customProps}
           />
-        {this.fieldErrors}
+        {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
   }
@@ -118,15 +118,11 @@ class SelectTab extends Component {
   get tooltipLink() {
     return (<TooltipLink tooltip={this.props.tooltip} />);
   }
-
-  get fieldErrors(){
-    if (!this.props.showErrors) return;
-    return (<div className='error'>{this.props.errors}</div>);
-  }
 }
 
 SelectTab.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 export default SelectTab;

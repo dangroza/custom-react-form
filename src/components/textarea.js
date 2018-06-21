@@ -34,43 +34,39 @@ class Textarea extends Component {
       errors = this.props.customValidator(this.props, initialValue);
     }
     if (this.props.mandatory && validator.isEmpty(initialValue)) {
-      errors = [`${this.props.label} is required.`];
+      errors = [`${this.props.label} is required`];
     }
     return errors;
   }
 
   render() {
-    const { label, id, value, mandatory, errors, showErrors, formGroupClassName, ...domProps} = this.props;
+    const { label, id, value, mandatory, errors, showErrors, formGroupClassName} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
-    let labelClass = [];
-    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
+    let formGroupClasses = ['form-group', formGroupClassName];
+    formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
     return (
-      <div className={`form-group ${formGroupClassName}`}>
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+      <div className={formGroupClasses.join(' ')}>
+        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
         <textarea
           id={id}
           rows="3"
           onChange={this.onChange}
           value={value}
           placeholder={this.props.placeholder} />
-          {this.fieldErrors}
+        {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
   }
 
-    get tooltipLink() {
-      return (<TooltipLink tooltip={this.props.tooltip} />);
-    }
-
-    get fieldErrors(){
-      if (!this.props.showErrors) return;
-      return (<div className='error'>{this.props.errors}</div>);
-    }
+  get tooltipLink() {
+    return (<TooltipLink tooltip={this.props.tooltip} />);
+  }
 }
 
 Textarea.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 export default Textarea;

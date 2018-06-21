@@ -15,7 +15,6 @@ import Container from "./components/container";
 import HighOrderContainer from "./components/high-order-container";
 import { randomInt } from './utils';
 
-import './style/form.css';
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight, faBold,

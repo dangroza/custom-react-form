@@ -8,7 +8,7 @@ class File extends Component {
   }
 
   onChange(event) {
-    let field = event.currentTarget;
+    const field = event.currentTarget;
     this.props.updateField(
       {
         ...this.props,
@@ -23,39 +23,39 @@ class File extends Component {
   validationErrors(value, files) {
     let errors = [];
     if (this.props.mandatory && validator.isEmpty(value)) {
-      errors.push(`${this.props.label} is required.`);
+      errors.push(`${this.props.label} is required`);
     }
     return errors;
   }
 
   get fileName() {
-    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : this.props.placeholder;
+    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : '';
   }
 
   render() {
-    const { label, id, value, mandatory, errors, showErrors, updateField, placeholder, formGroupClassName, ...domProps} = this.props;
+    const { label, id, className, mandatory, errors, showErrors, placeholder, formGroupClassName, accept } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
-    let labelClass = ['label-section'];
-    labelClass.push((errors && errors.length > 0) ? 'error' : '');
+    let formGroupClasses = ['form-group', formGroupClassName];
+    formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
+
     return (
-      <div className={`form-group ${formGroupClassName}`}>
-        <span className={labelClass.join(' ')} >{label} {mandatoryMark} </span>
-        <input className='input-file' id={id}
-          {...domProps}
-          onChange={this.onChange}
-        />
-        <label className={labelClass.join(' ')} htmlFor={id}>{this.fileName}</label>
-        {this.fieldErrors}
+      <div className={formGroupClasses.join(' ')}>
+        <label>{label} {mandatoryMark}</label>
+        <input id={id} className='input-file' type='file' accept={accept} onChange={this.onChange}/>
+        <div className='choose-file'>
+          <label htmlFor={id}>{placeholder}</label>
+          <div className={className}>{this.fileName}</div>
+        </div>
+        {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
-  }
-  get fieldErrors(){
-    return (<div className='error'>{this.props.errors}</div>);
   }
 }
 
 File.defaultProps = {
-  formGroupClassName: ''
+  id: 'file',
+  formGroupClassName: '',
+  errors: []
 };
 
 export default File;
