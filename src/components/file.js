@@ -23,7 +23,7 @@ class File extends Component {
   validationErrors(value, files) {
     let errors = [];
     if (this.props.mandatory && validator.isEmpty(value)) {
-      errors.push(`${this.props.label} is required.`);
+      errors.push(`${this.props.label} is required`);
     }
     return errors;
   }
@@ -33,10 +33,10 @@ class File extends Component {
   }
 
   render() {
-    const { label, id, className, mandatory, errors, placeholder, formGroupClassName, accept } = this.props;
+    const { label, id, className, mandatory, errors, showErrors, placeholder, formGroupClassName, accept } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
-    formGroupClasses.push((errors && errors.length > 0) ? 'has-error' : '');
+    formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
     return (
       <div className={formGroupClasses.join(' ')}>
@@ -46,7 +46,7 @@ class File extends Component {
           <label htmlFor={id}>{placeholder}</label>
           <div className={className}>{this.fileName}</div>
         </div>
-        <div className='error'>{errors}</div>
+        {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
   }
@@ -54,7 +54,8 @@ class File extends Component {
 
 File.defaultProps = {
   id: 'file',
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 export default File;

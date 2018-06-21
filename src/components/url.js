@@ -15,7 +15,7 @@ class Url extends Component {
   }
 
   onChange(event) {
-    let field = event.currentTarget;
+    const field = event.currentTarget;
     this.props.updateField(
       {
         ...this.props,
@@ -29,7 +29,7 @@ class Url extends Component {
   validationErrors(value) {
     let errors = [];
     if (this.props.mandatory && validator.isEmpty(value)) {
-      errors.push(`${this.props.label} is required.`);
+      errors.push(`${this.props.label} is required`);
     }
     if (!validator.isEmpty(value) && !validator.isURL(value)) {
       errors.push('Please enter a valid URL');
@@ -40,27 +40,25 @@ class Url extends Component {
   render() {
     const { label, id, mandatory, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
-    let labelClass = ['label-section'];
-    labelClass.push((showErrors && errors && errors.length > 0) ? 'error' : '');
+    let formGroupClasses = ['form-group', formGroupClassName];
+    formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
+
     return (
-      <div className={`form-group ${formGroupClassName}`}>
-        <label className={labelClass.join(' ')} htmlFor={id}>{label} {mandatoryMark}</label>
+      <div className={formGroupClasses.join(' ')}>
+        <label htmlFor={id}>{label} {mandatoryMark}</label>
         <input id={id}
           {...domProps}
           onChange={this.onChange}
         />
-        {this.fieldErrors}
+        {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
-  }
-  get fieldErrors(){
-    if (!this.props.showErrors) return;
-    return (<div className='error'>{this.props.errors}</div>);
   }
 }
 
 Url.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 export default Url;

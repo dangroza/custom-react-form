@@ -8734,7 +8734,7 @@ var Input = function (_Component) {
         errors = this.props.customValidator(this.props, value);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors = [this.props.label + ' is required.'];
+        errors = [this.props.label + ' is required'];
       }
       return errors;
     }
@@ -8756,14 +8756,15 @@ var Input = function (_Component) {
         null,
         '*'
       ) : '';
-      var labelClass = ['label-section'];
-      labelClass.push(showErrors && errors && errors.length > 0 ? 'error' : '');
+      var formGroupClasses = ['form-group', formGroupClassName];
+      formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
+
       return _react2.default.createElement(
         'div',
-        { className: 'form-group ' + formGroupClassName },
+        { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { className: labelClass.join(' '), htmlFor: id },
+          { htmlFor: id },
           label,
           ' ',
           mandatoryMark,
@@ -8774,7 +8775,11 @@ var Input = function (_Component) {
         }, domProps, {
           onChange: this.onChange
         })),
-        this.fieldErrors
+        showErrors && errors.length > 0 && _react2.default.createElement(
+          'div',
+          { className: 'error' },
+          errors
+        )
       );
     }
   }, {
@@ -8782,23 +8787,14 @@ var Input = function (_Component) {
     get: function get() {
       return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
-  }, {
-    key: 'fieldErrors',
-    get: function get() {
-      if (!this.props.showErrors) return;
-      return _react2.default.createElement(
-        'div',
-        { className: 'error' },
-        this.props.errors
-      );
-    }
   }]);
 
   return Input;
 }(_react.Component);
 
 Input.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 exports.default = Input;
@@ -38935,7 +38931,7 @@ var File = function (_Component) {
     value: function validationErrors(value, files) {
       var errors = [];
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors.push(this.props.label + ' is required.');
+        errors.push(this.props.label + ' is required');
       }
       return errors;
     }
@@ -38948,6 +38944,7 @@ var File = function (_Component) {
           className = _props.className,
           mandatory = _props.mandatory,
           errors = _props.errors,
+          showErrors = _props.showErrors,
           placeholder = _props.placeholder,
           formGroupClassName = _props.formGroupClassName,
           accept = _props.accept;
@@ -38958,7 +38955,7 @@ var File = function (_Component) {
         '*'
       ) : '';
       var formGroupClasses = ['form-group', formGroupClassName];
-      formGroupClasses.push(errors && errors.length > 0 ? 'has-error' : '');
+      formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
       return _react2.default.createElement(
         'div',
@@ -38985,7 +38982,7 @@ var File = function (_Component) {
             this.fileName
           )
         ),
-        _react2.default.createElement(
+        showErrors && errors.length > 0 && _react2.default.createElement(
           'div',
           { className: 'error' },
           errors
@@ -39004,7 +39001,8 @@ var File = function (_Component) {
 
 File.defaultProps = {
   id: 'file',
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 exports.default = File;
@@ -39037,8 +39035,6 @@ var _tooltipLink = __webpack_require__(24);
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -39081,7 +39077,7 @@ var Textarea = function (_Component) {
         errors = this.props.customValidator(this.props, initialValue);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
-        errors = [this.props.label + ' is required.'];
+        errors = [this.props.label + ' is required'];
       }
       return errors;
     }
@@ -39095,23 +39091,22 @@ var Textarea = function (_Component) {
           mandatory = _props.mandatory,
           errors = _props.errors,
           showErrors = _props.showErrors,
-          formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'value', 'mandatory', 'errors', 'showErrors', 'formGroupClassName']);
+          formGroupClassName = _props.formGroupClassName;
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
         null,
         '*'
       ) : '';
-      var labelClass = [];
-      labelClass.push(showErrors && errors && errors.length > 0 ? 'error' : '');
+      var formGroupClasses = ['form-group', formGroupClassName];
+      formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
       return _react2.default.createElement(
         'div',
-        { className: 'form-group ' + formGroupClassName },
+        { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { className: labelClass.join(' '), htmlFor: id },
+          { htmlFor: id },
           label,
           ' ',
           mandatoryMark,
@@ -39124,7 +39119,11 @@ var Textarea = function (_Component) {
           onChange: this.onChange,
           value: value,
           placeholder: this.props.placeholder }),
-        this.fieldErrors
+        showErrors && errors.length > 0 && _react2.default.createElement(
+          'div',
+          { className: 'error' },
+          errors
+        )
       );
     }
   }, {
@@ -39132,23 +39131,14 @@ var Textarea = function (_Component) {
     get: function get() {
       return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
-  }, {
-    key: 'fieldErrors',
-    get: function get() {
-      if (!this.props.showErrors) return;
-      return _react2.default.createElement(
-        'div',
-        { className: 'error' },
-        this.props.errors
-      );
-    }
   }]);
 
   return Textarea;
 }(_react.Component);
 
 Textarea.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 exports.default = Textarea;
@@ -39195,8 +39185,6 @@ var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 __webpack_require__(275);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -39251,7 +39239,7 @@ var Richtext = function (_Component) {
         errors = this.props.customValidator(this.props, initialValue);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
-        errors = [this.props.label + ' is required.'];
+        errors = [this.props.label + ' is required'];
       }
       return errors;
     }
@@ -39305,24 +39293,23 @@ var Richtext = function (_Component) {
           id = _props.id,
           mandatory = _props.mandatory,
           errors = _props.errors,
-          updateField = _props.updateField,
           showErrors = _props.showErrors,
-          formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'formGroupClassName']);
+          formGroupClassName = _props.formGroupClassName;
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
         null,
         '*'
       ) : '';
-      var labelClass = ['label-section'];
-      labelClass.push(showErrors && errors && errors.length > 0 ? 'error' : '');
+      var formGroupClasses = ['form-group', formGroupClassName];
+      formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
+
       return _react2.default.createElement(
         'div',
-        { className: 'form-group ' + formGroupClassName },
+        { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { className: labelClass.join(' '), htmlFor: id },
+          { htmlFor: id },
           label,
           ' ',
           mandatoryMark,
@@ -39350,7 +39337,11 @@ var Richtext = function (_Component) {
             })
           )
         ),
-        this.fieldErrors
+        showErrors && errors.length > 0 && _react2.default.createElement(
+          'div',
+          { className: 'error' },
+          errors
+        )
       );
     }
   }, {
@@ -39384,16 +39375,6 @@ var Richtext = function (_Component) {
     key: 'tooltipLink',
     get: function get() {
       return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
-    }
-  }, {
-    key: 'fieldErrors',
-    get: function get() {
-      if (!this.props.showErrors) return;
-      return _react2.default.createElement(
-        'div',
-        { className: 'error' },
-        this.props.errors
-      );
     }
   }]);
 
@@ -39483,7 +39464,8 @@ var InlineStyleControls = function InlineStyleControls(props) {
 };
 
 Richtext.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 exports.default = Richtext;
@@ -50159,8 +50141,6 @@ var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -50241,7 +50221,7 @@ var SelectTab = function (_Component) {
       }
       if (this.props.mandatory) {
         errors = [];
-        var mandatoryError = this.props.label + ' is required.';
+        var mandatoryError = this.props.label + ' is required';
         if (Array.isArray(currentValue)) {
           if (currentValue.length < 1) {
             errors.push(mandatoryError);
@@ -50277,27 +50257,25 @@ var SelectTab = function (_Component) {
           multi = _props.multi,
           value = _props.value,
           errors = _props.errors,
-          updateField = _props.updateField,
           showErrors = _props.showErrors,
-          formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'options', 'multi', 'value', 'errors', 'updateField', 'showErrors', 'formGroupClassName']);
+          formGroupClassName = _props.formGroupClassName;
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
         null,
         '*'
       ) : '';
-      var labelClass = ['label-section'];
-      labelClass.push(showErrors && errors && errors.length > 0 ? 'error' : '');
+      var formGroupClasses = ['form-group', formGroupClassName];
+      formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
       var SelectPlusComponent = this.customSelectClass;
       var customProps = {};
       if (this.props.async) customProps.loadOptions = this.getOptions;
       return _react2.default.createElement(
         'div',
-        { className: 'form-group ' + formGroupClassName },
+        { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { className: labelClass.join(' '), htmlFor: id },
+          { htmlFor: id },
           label,
           ' ',
           mandatoryMark,
@@ -50313,7 +50291,11 @@ var SelectTab = function (_Component) {
           placeholder: this.props.placeholder,
           onChange: this.onChange
         }, customProps)),
-        this.fieldErrors
+        showErrors && errors.length > 0 && _react2.default.createElement(
+          'div',
+          { className: 'error' },
+          errors
+        )
       );
     }
   }, {
@@ -50333,23 +50315,14 @@ var SelectTab = function (_Component) {
     get: function get() {
       return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
-  }, {
-    key: 'fieldErrors',
-    get: function get() {
-      if (!this.props.showErrors) return;
-      return _react2.default.createElement(
-        'div',
-        { className: 'error' },
-        this.props.errors
-      );
-    }
   }]);
 
   return SelectTab;
 }(_react.Component);
 
 SelectTab.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 exports.default = SelectTab;
@@ -53862,7 +53835,7 @@ var Url = function (_Component) {
     value: function validationErrors(value) {
       var errors = [];
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors.push(this.props.label + ' is required.');
+        errors.push(this.props.label + ' is required');
       }
       if (!_validator2.default.isEmpty(value) && !_validator2.default.isURL(value)) {
         errors.push('Please enter a valid URL');
@@ -53887,14 +53860,15 @@ var Url = function (_Component) {
         null,
         '*'
       ) : '';
-      var labelClass = ['label-section'];
-      labelClass.push(showErrors && errors && errors.length > 0 ? 'error' : '');
+      var formGroupClasses = ['form-group', formGroupClassName];
+      formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
+
       return _react2.default.createElement(
         'div',
-        { className: 'form-group ' + formGroupClassName },
+        { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { className: labelClass.join(' '), htmlFor: id },
+          { htmlFor: id },
           label,
           ' ',
           mandatoryMark
@@ -53903,17 +53877,11 @@ var Url = function (_Component) {
         }, domProps, {
           onChange: this.onChange
         })),
-        this.fieldErrors
-      );
-    }
-  }, {
-    key: 'fieldErrors',
-    get: function get() {
-      if (!this.props.showErrors) return;
-      return _react2.default.createElement(
-        'div',
-        { className: 'error' },
-        this.props.errors
+        showErrors && errors.length > 0 && _react2.default.createElement(
+          'div',
+          { className: 'error' },
+          errors
+        )
       );
     }
   }]);
@@ -53922,7 +53890,8 @@ var Url = function (_Component) {
 }(_react.Component);
 
 Url.defaultProps = {
-  formGroupClassName: ''
+  formGroupClassName: '',
+  errors: []
 };
 
 exports.default = Url;
