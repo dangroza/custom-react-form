@@ -8748,8 +8748,9 @@ var Input = function (_Component) {
           errors = _props.errors,
           updateField = _props.updateField,
           showErrors = _props.showErrors,
+          tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -8766,10 +8767,8 @@ var Input = function (_Component) {
           'label',
           { htmlFor: id },
           label,
-          ' ',
           mandatoryMark,
-          ' ',
-          this.tooltipLink
+          tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
         _react2.default.createElement('input', _extends({ id: id
         }, domProps, {
@@ -8781,11 +8780,6 @@ var Input = function (_Component) {
           errors
         )
       );
-    }
-  }, {
-    key: 'tooltipLink',
-    get: function get() {
-      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }]);
 
@@ -39091,6 +39085,7 @@ var Textarea = function (_Component) {
           mandatory = _props.mandatory,
           errors = _props.errors,
           showErrors = _props.showErrors,
+          ftooltip = _props.ftooltip,
           formGroupClassName = _props.formGroupClassName;
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
@@ -39108,10 +39103,8 @@ var Textarea = function (_Component) {
           'label',
           { htmlFor: id },
           label,
-          ' ',
           mandatoryMark,
-          ' ',
-          this.tooltipLink
+          tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
         _react2.default.createElement('textarea', {
           id: id,
@@ -39125,11 +39118,6 @@ var Textarea = function (_Component) {
           errors
         )
       );
-    }
-  }, {
-    key: 'tooltipLink',
-    get: function get() {
-      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }]);
 
@@ -39294,6 +39282,7 @@ var Richtext = function (_Component) {
           mandatory = _props.mandatory,
           errors = _props.errors,
           showErrors = _props.showErrors,
+          tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName;
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
@@ -39311,10 +39300,8 @@ var Richtext = function (_Component) {
           'label',
           { htmlFor: id },
           label,
-          ' ',
           mandatoryMark,
-          ' ',
-          this.tooltipLink
+          tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
         _react2.default.createElement(
           'div',
@@ -39370,11 +39357,6 @@ var Richtext = function (_Component) {
           onToggle: this.toggleBlockType
         })
       );
-    }
-  }, {
-    key: 'tooltipLink',
-    get: function get() {
-      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }]);
 
@@ -50258,6 +50240,7 @@ var SelectTab = function (_Component) {
           value = _props.value,
           errors = _props.errors,
           showErrors = _props.showErrors,
+          tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName;
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
@@ -50277,10 +50260,8 @@ var SelectTab = function (_Component) {
           'label',
           { htmlFor: id },
           label,
-          ' ',
           mandatoryMark,
-          ' ',
-          this.tooltipLink
+          tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
         _react2.default.createElement(SelectPlusComponent, _extends({
           name: this.props.name,
@@ -50309,11 +50290,6 @@ var SelectTab = function (_Component) {
       if (async) return _reactSelectPlus.Async;
       if (allowNew) return _reactSelectPlus.Creatable;
       return _reactSelectPlus2.default;
-    }
-  }, {
-    key: 'tooltipLink',
-    get: function get() {
-      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }]);
 
@@ -53679,16 +53655,10 @@ var Password = function (_Component) {
           'label',
           { htmlFor: this.props.id },
           this.props.label,
-          ' ',
-          this.tooltipLink
+          this.props.tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip })
         ),
         _react2.default.createElement('input', { type: this.props.type, placeholder: this.props.placeholder })
       );
-    }
-  }, {
-    key: 'tooltipLink',
-    get: function get() {
-      return _react2.default.createElement(_tooltipLink2.default, { tooltip: this.props.tooltip });
     }
   }]);
 
@@ -53794,6 +53764,10 @@ var _validator = __webpack_require__(19);
 
 var _validator2 = _interopRequireDefault(_validator);
 
+var _tooltipLink = __webpack_require__(24);
+
+var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -53852,8 +53826,9 @@ var Url = function (_Component) {
           errors = _props.errors,
           updateField = _props.updateField,
           showErrors = _props.showErrors,
+          tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -53870,13 +53845,10 @@ var Url = function (_Component) {
           'label',
           { htmlFor: id },
           label,
-          ' ',
-          mandatoryMark
+          mandatoryMark,
+          tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
-        _react2.default.createElement('input', _extends({ id: id
-        }, domProps, {
-          onChange: this.onChange
-        })),
+        _react2.default.createElement('input', _extends({ id: id }, domProps, { onChange: this.onChange })),
         showErrors && errors.length > 0 && _react2.default.createElement(
           'div',
           { className: 'error' },

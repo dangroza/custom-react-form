@@ -134,14 +134,18 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, showErrors, formGroupClassName } = this.props;
+    const { label, id, mandatory, errors, showErrors, tooltip, formGroupClassName } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
     return (
       <div className={formGroupClasses.join(' ')}>
-        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+        <label htmlFor={id}>
+          {label}
+          {mandatoryMark}
+          {tooltip && <TooltipLink tooltip={tooltip} />}
+        </label>
         <div className="richtext">
           {this._styleControls}
           <div className={className} onClick={this.focus}>
@@ -162,10 +166,6 @@ class Richtext extends Component {
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
-  }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
 

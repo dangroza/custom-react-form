@@ -90,7 +90,7 @@ class SelectTab extends Component {
   }
 
   render() {
-    const { label, id, mandatory, options, multi, value, errors, showErrors, formGroupClassName} = this.props;
+    const { label, id, mandatory, options, multi, value, errors, showErrors, tooltip, formGroupClassName} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -99,7 +99,11 @@ class SelectTab extends Component {
     if (this.props.async) customProps.loadOptions = this.getOptions;
     return (
       <div className={formGroupClasses.join(' ')}>
-        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+        <label htmlFor={id}>
+          {label}
+          {mandatoryMark}
+          {tooltip && <TooltipLink tooltip={tooltip} />}
+        </label>
         <SelectPlusComponent
           name={this.props.name}
           className="select-tab"
@@ -109,14 +113,10 @@ class SelectTab extends Component {
           placeholder={this.props.placeholder}
           onChange={this.onChange}
           {...customProps}
-          />
+        />
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
-  }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
 

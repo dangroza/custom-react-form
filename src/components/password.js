@@ -6,14 +6,13 @@ class Password extends Component {
   render() {
     return (
       <div className={`form-group ${this.props.formGroupClassName}`}>
-        <label htmlFor={this.props.id}>{this.props.label} {this.tooltipLink}</label>
+        <label htmlFor={this.props.id}>
+          {this.props.label}
+          {this.props.tooltip && <TooltipLink tooltip={this.props.tooltip} />}
+        </label>
         <input type={this.props.type} placeholder={this.props.placeholder}/>
       </div>
     );
-  }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
 

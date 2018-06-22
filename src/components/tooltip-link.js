@@ -12,7 +12,7 @@ class TooltipLink extends Component {
         onMouseOver={this.onMouseOver}
         data-tip={this.props.tooltip}
         key={randomInt()}
-        />,
+      />,
       <ReactTooltip key={randomInt()} />
     ]);
   }
