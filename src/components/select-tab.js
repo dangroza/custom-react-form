@@ -73,7 +73,7 @@ class SelectTab extends Component {
     const { allowNew, async } = this.props;
     if (allowNew && async) return AsyncCreatable;
     if (async) return Async;
-    if  (allowNew) return Creatable;
+    if (allowNew) return Creatable;
     return Select;
   }
 
@@ -90,7 +90,7 @@ class SelectTab extends Component {
   }
 
   render() {
-    const { label, id, mandatory, options, multi, value, errors, showErrors, tooltip, formGroupClassName} = this.props;
+    const { label, id, mandatory, options, multi, value, errors, showErrors, tooltip, formGroupClassName, autoload } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -112,6 +112,7 @@ class SelectTab extends Component {
           multi={multi}
           placeholder={this.props.placeholder}
           onChange={this.onChange}
+          autoload={autoload}
           {...customProps}
         />
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
@@ -122,7 +123,8 @@ class SelectTab extends Component {
 
 SelectTab.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  autoload: false
 };
 
 export default SelectTab;
