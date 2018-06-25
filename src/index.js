@@ -20,6 +20,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight, faBold,
          faListOl, faListUl, faItalic, faStrikethrough, faUnderline, faInfoCircle
         } from '@fortawesome/fontawesome-free-solid'
+
 fontawesome.library.add(
   faAlignCenter,
   faAlignJustify,
@@ -151,4 +152,16 @@ class CustomReactForm extends Component {
 CustomReactForm.propTypes = {
   updateParentCallback: PropTypes.func.isRequired
 };
+
 export default CustomReactForm;
+exports.Button = Button;
+exports.Checkbox = Checkbox;
+exports.File = File;
+exports.Input = Input;
+exports.Password = Password;
+exports.Richtext = Richtext;
+exports.Radio = Radio;
+exports.Select = Select;
+exports.SelectTab = SelectTab;
+exports.Textarea = Textarea;
+exports.Url = Url;

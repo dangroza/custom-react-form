@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
@@ -61,6 +62,10 @@ class Url extends Component {
 Url.defaultProps = {
   formGroupClassName: '',
   errors: []
+};
+
+Url.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default Url;

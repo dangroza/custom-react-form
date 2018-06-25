@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
@@ -125,6 +126,10 @@ SelectTab.defaultProps = {
   formGroupClassName: '',
   errors: [],
   autoload: false
+};
+
+SelectTab.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default SelectTab;

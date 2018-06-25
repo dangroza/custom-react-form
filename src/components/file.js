@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import validator from 'validator';
 
 class File extends Component {
@@ -56,6 +57,10 @@ File.defaultProps = {
   id: 'file',
   formGroupClassName: '',
   errors: []
+};
+
+File.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default File;

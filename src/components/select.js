@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Select extends Component {
   // TODO: Update this
@@ -44,6 +45,10 @@ class Select extends Component {
 
 Select.defaultProps = {
   formGroupClassName: ''
+};
+
+Select.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default Select;

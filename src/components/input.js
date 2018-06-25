@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
@@ -62,6 +63,10 @@ class Input extends Component {
 Input.defaultProps = {
   formGroupClassName: '',
   errors: []
+};
+
+Input.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default Input;
