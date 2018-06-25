@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
@@ -37,14 +38,18 @@ class Input extends Component {
   }
 
   render() {
-    const { label, id, mandatory, errors, updateField, showErrors, formGroupClassName, ...domProps} = this.props;
+    const { label, id, mandatory, errors, updateField, showErrors, tooltip, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
     return (
       <div className={formGroupClasses.join(' ')}>
-        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+        <label htmlFor={id}>
+          {label}
+          {mandatoryMark}
+          {tooltip && <TooltipLink tooltip={tooltip} />}
+        </label>
         <input id={id}
           {...domProps}
           onChange={this.onChange}
@@ -53,15 +58,15 @@ class Input extends Component {
       </div>
     );
   }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
-  }
 }
 
 Input.defaultProps = {
   formGroupClassName: '',
   errors: []
+};
+
+Input.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default Input;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
@@ -73,7 +74,7 @@ class SelectTab extends Component {
     const { allowNew, async } = this.props;
     if (allowNew && async) return AsyncCreatable;
     if (async) return Async;
-    if  (allowNew) return Creatable;
+    if (allowNew) return Creatable;
     return Select;
   }
 
@@ -90,7 +91,7 @@ class SelectTab extends Component {
   }
 
   render() {
-    const { label, id, mandatory, options, multi, value, errors, showErrors, formGroupClassName} = this.props;
+    const { label, id, mandatory, options, multi, value, errors, showErrors, tooltip, formGroupClassName, autoload } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -99,7 +100,11 @@ class SelectTab extends Component {
     if (this.props.async) customProps.loadOptions = this.getOptions;
     return (
       <div className={formGroupClasses.join(' ')}>
-        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+        <label htmlFor={id}>
+          {label}
+          {mandatoryMark}
+          {tooltip && <TooltipLink tooltip={tooltip} />}
+        </label>
         <SelectPlusComponent
           name={this.props.name}
           className="select-tab"
@@ -108,21 +113,23 @@ class SelectTab extends Component {
           multi={multi}
           placeholder={this.props.placeholder}
           onChange={this.onChange}
+          autoload={autoload}
           {...customProps}
-          />
+        />
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
-  }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
 
 SelectTab.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  autoload: false
+};
+
+SelectTab.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default SelectTab;

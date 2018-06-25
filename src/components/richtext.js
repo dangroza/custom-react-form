@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import {Editor, EditorState, ContentState, RichUtils, getDefaultKeyBinding, convertFromHTML} from 'draft-js';
+import { Editor, EditorState, ContentState, RichUtils, getDefaultKeyBinding, convertFromHTML } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import validator from 'validator';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -134,14 +135,18 @@ class Richtext extends Component {
       }
     }
 
-    const { label, id, mandatory, errors, showErrors, formGroupClassName } = this.props;
+    const { label, id, mandatory, errors, showErrors, tooltip, formGroupClassName } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
     return (
       <div className={formGroupClasses.join(' ')}>
-        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+        <label htmlFor={id}>
+          {label}
+          {mandatoryMark}
+          {tooltip && <TooltipLink tooltip={tooltip} />}
+        </label>
         <div className="richtext">
           {this._styleControls}
           <div className={className} onClick={this.focus}>
@@ -162,10 +167,6 @@ class Richtext extends Component {
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
-  }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
   }
 }
 
@@ -204,6 +205,7 @@ const BLOCK_TYPES = [
   {label: 'list-ul', style: 'unordered-list-item'},
   {label: 'list-ol', style: 'ordered-list-item'}
 ];
+
 const BlockStyleControls = (props) => {
   const {editorState} = props;
   const selection = editorState.getSelection();
@@ -225,11 +227,13 @@ const BlockStyleControls = (props) => {
     </div>
   );
 };
+
 var INLINE_STYLES = [
   {label: 'bold', style: 'BOLD'},
   {label: 'italic', style: 'ITALIC'},
   {label: 'underline', style: 'UNDERLINE'}
 ];
+
 const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
 
@@ -251,6 +255,10 @@ const InlineStyleControls = (props) => {
 Richtext.defaultProps = {
   formGroupClassName: '',
   errors: []
+};
+
+Richtext.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default Richtext;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
@@ -40,14 +41,18 @@ class Textarea extends Component {
   }
 
   render() {
-    const { label, id, value, mandatory, errors, showErrors, formGroupClassName} = this.props;
+    const { label, id, value, mandatory, errors, showErrors, tooltip, formGroupClassName } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
 
     return (
       <div className={formGroupClasses.join(' ')}>
-        <label htmlFor={id}>{label} {mandatoryMark} {this.tooltipLink}</label>
+        <label htmlFor={id}>
+          {label}
+          {mandatoryMark}
+          {tooltip && <TooltipLink tooltip={tooltip} />}
+        </label>
         <textarea
           id={id}
           rows="3"
@@ -58,15 +63,15 @@ class Textarea extends Component {
       </div>
     );
   }
-
-  get tooltipLink() {
-    return (<TooltipLink tooltip={this.props.tooltip} />);
-  }
 }
 
 Textarea.defaultProps = {
   formGroupClassName: '',
   errors: []
+};
+
+Textarea.propTypes = {
+  updateField: PropTypes.func.isRequired
 };
 
 export default Textarea;
