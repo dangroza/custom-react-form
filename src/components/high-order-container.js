@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 const HighOrderContainer = (ContainedComponent) => {
-  class HOCWrapper extends React.PureComponent {
+  class HOCWrapper extends PureComponent {
     render() {
       const formGroupClassName = this.props.formGroupClassName || '';
       return (

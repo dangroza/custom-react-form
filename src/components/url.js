@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
-class Url extends Component {
+class Url extends React.PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);

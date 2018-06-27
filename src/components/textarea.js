@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
-class Textarea extends Component {
+class Textarea extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Editor, EditorState, ContentState, RichUtils, getDefaultKeyBinding, convertFromHTML } from 'draft-js';
@@ -8,7 +8,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import TooltipLink from './tooltip-link';
 
 import '../style/richtext.css';
-class Richtext extends Component {
+class Richtext extends PureComponent {
   constructor(props) {
     super(props);
 

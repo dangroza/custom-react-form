@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class Select extends Component {
+class Select extends PureComponent {
   // TODO: Update this
   constructor(props) {
     super(props);

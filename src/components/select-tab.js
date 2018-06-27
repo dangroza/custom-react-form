@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
 
-class SelectTab extends Component {
+class SelectTab extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);

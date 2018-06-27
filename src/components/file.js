@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 
-class File extends Component {
+class File extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
