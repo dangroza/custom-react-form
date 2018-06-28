@@ -16718,15 +16718,16 @@ var CustomReactForm = function (_Component) {
           el.showErrors = this.props.showAllErrors || el.showErrors;
           var CustomComponent = this.classForType(el.type);
           if (el.type == 'external-component') {
-            var UserDefinedComponent = el.component;
-
             var component = el.component,
                 wrapperProps = _objectWithoutProperties(el, ['component']);
 
+            var ExternalComponent = component;
             childNodes.push(_react2.default.createElement(
               CustomComponent,
               wrapperProps,
-              _react2.default.createElement(UserDefinedComponent, _extends({}, el.componentProps, {
+              _react2.default.createElement(ExternalComponent, _extends({
+                id: wrapperProps.id
+              }, el.componentProps, {
                 updateField: this.handleFieldChange
               }))
             ));
@@ -38952,7 +38953,7 @@ var File = function (_PureComponent) {
       var field = event.currentTarget;
       this.props.updateField(_extends({}, this.props, {
         value: field.value,
-        files: field.files,
+        files: [field.files[0]],
         errors: this.validationErrors(field.value, field.files),
         showErrors: true
       }));

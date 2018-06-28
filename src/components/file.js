@@ -14,7 +14,7 @@ class File extends PureComponent {
       {
         ...this.props,
         value: field.value,
-        files: field.files,
+        files: [field.files[0]],
         errors: this.validationErrors(field.value, field.files),
         showErrors: true
       }
