@@ -12,7 +12,7 @@ import Password from './components/password';
 import Button from './components/button';
 import Url from "./components/url";
 import Container from "./components/container";
-import HighOrderContainer from "./components/high-order-container";
+import ExternalComponentContainer from "./components/external-component-container";
 import { randomInt } from './utils';
 
 import fontawesome from '@fortawesome/fontawesome'
@@ -48,7 +48,7 @@ const FIELD_CLASS = {
   'richtext': Richtext,
   'button': Button,
   'container': Container,
-  'hoc': HighOrderContainer
+  'external-component': ExternalComponentContainer
 }
 
 class CustomReactForm extends Component {
@@ -102,11 +102,8 @@ class CustomReactForm extends Component {
   }
 
   handleFieldChange(field) {
-    let changedFields = this.updateFields(this.state.fields, field);
-    this.props.updateParentCallback({
-      fields: changedFields,
-      ...this.readOnlyAttributes
-    });
+    const { updateField, ...updatedField } = field;
+    this.props.updateParentCallback(updatedField);
   }
 
   render() {
@@ -119,9 +116,18 @@ class CustomReactForm extends Component {
         el.id = key;
         el.showErrors = this.props.showAllErrors || el.showErrors;
         const CustomComponent = this.classForType(el.type);
-        if (el.type == 'hoc') {
-          const HOC = CustomComponent(el.component);
-          childNodes.push(<HOC {...el.componentProps} {...el} />);
+        if (el.type == 'external-component') {
+          const { component, ...wrapperProps } = el;
+          const ExternalComponent = component;
+          childNodes.push(
+            <CustomComponent {...wrapperProps}>
+              <ExternalComponent
+                id={wrapperProps.id}
+                {...el.componentProps}
+                updateField={this.handleFieldChange}
+              />
+            </CustomComponent>
+          );
         } else {
           childNodes.push(
             <CustomComponent

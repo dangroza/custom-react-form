@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
+import { defaultValidationMessages } from './../utils';
 
-class Textarea extends Component {
+class Textarea extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -11,21 +12,20 @@ class Textarea extends Component {
       {
         ...this.props,
         errors: this.validationErrors(this.props.value),
-        showErrors: false
+        showErrors: false,
+        fromInit: true
       }
     );
   }
 
   onChange(event) {
     let field = event.currentTarget;
-    this.props.updateField(
-      {
-        ...this.props,
-        value: field.value,
-        errors: this.validationErrors(field.value),
-        showErrors: true
-      }
-    );
+    this.props.updateField({
+      id: this.props.id,
+      value: field.value,
+      errors: this.validationErrors(field.value),
+      showErrors: true
+    });
   }
 
   validationErrors(value) {
@@ -35,7 +35,7 @@ class Textarea extends Component {
       errors = this.props.customValidator(this.props, initialValue);
     }
     if (this.props.mandatory && validator.isEmpty(initialValue)) {
-      errors = [`${this.props.label} is required`];
+      errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
     }
     return errors;
   }
@@ -67,7 +67,8 @@ class Textarea extends Component {
 
 Textarea.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Textarea.propTypes = {

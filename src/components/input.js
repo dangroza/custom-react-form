@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
+import { defaultValidationMessages } from './../utils';
 
-class Input extends Component {
+class Input extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.props.updateField({
       ...this.props,
       showErrors: false,
-      errors: this.validationErrors(this.props.value)
+      errors: this.validationErrors(this.props.value),
+      fromInit: true
     });
   }
 
   onChange(event) {
     const value = event.currentTarget.value;
-    this.props.updateField(
-      {
-        ...this.props,
-        value: value,
-        errors: this.validationErrors(value),
-        showErrors: true
-      }
-    );
+    this.props.updateField({
+      id: this.props.id,
+      value: value,
+      errors: this.validationErrors(value),
+      showErrors: true
+    });
   }
 
   validationErrors(value) {
@@ -32,13 +32,13 @@ class Input extends Component {
       errors = this.props.customValidator(this.props, value);
     }
     if (this.props.mandatory && validator.isEmpty(value)) {
-      errors = [`${this.props.label} is required`];
+      errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
     }
     return errors;
   }
 
   render() {
-    const { label, id, mandatory, errors, updateField, showErrors, tooltip, formGroupClassName, ...domProps} = this.props;
+    const { fromInit, errorMessages, label, id, mandatory, errors, updateField, showErrors, tooltip, formGroupClassName, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -62,7 +62,8 @@ class Input extends Component {
 
 Input.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Input.propTypes = {

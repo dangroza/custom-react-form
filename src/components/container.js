@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class Container extends Component {
+class Container extends PureComponent {
   get contentFromProps(){
     return (
       <div

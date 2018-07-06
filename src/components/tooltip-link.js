@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
 import { randomInt } from '../utils';
-class TooltipLink extends Component {
+
+class TooltipLink extends PureComponent {
   render() {
     if (!this.props.tooltip) return null;
     return([

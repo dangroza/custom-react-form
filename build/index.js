@@ -7698,8 +7698,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TooltipLink = function (_Component) {
-  _inherits(TooltipLink, _Component);
+var TooltipLink = function (_PureComponent) {
+  _inherits(TooltipLink, _PureComponent);
 
   function TooltipLink() {
     _classCallCheck(this, TooltipLink);
@@ -7722,7 +7722,7 @@ var TooltipLink = function (_Component) {
   }]);
 
   return TooltipLink;
-}(_react.Component);
+}(_react.PureComponent);
 
 exports.default = TooltipLink;
 
@@ -8694,6 +8694,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -8704,8 +8706,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Input = function (_Component) {
-  _inherits(Input, _Component);
+var Input = function (_PureComponent) {
+  _inherits(Input, _PureComponent);
 
   function Input(props) {
     _classCallCheck(this, Input);
@@ -8715,7 +8717,8 @@ var Input = function (_Component) {
     _this.onChange = _this.onChange.bind(_this);
     _this.props.updateField(_extends({}, _this.props, {
       showErrors: false,
-      errors: _this.validationErrors(_this.props.value)
+      errors: _this.validationErrors(_this.props.value),
+      fromInit: true
     }));
     return _this;
   }
@@ -8724,11 +8727,12 @@ var Input = function (_Component) {
     key: 'onChange',
     value: function onChange(event) {
       var value = event.currentTarget.value;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: value,
         errors: this.validationErrors(value),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -8738,7 +8742,7 @@ var Input = function (_Component) {
         errors = this.props.customValidator(this.props, value);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors = [this.props.label + ' is required'];
+        errors = [this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory];
       }
       return errors;
     }
@@ -8746,6 +8750,8 @@ var Input = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          fromInit = _props.fromInit,
+          errorMessages = _props.errorMessages,
           label = _props.label,
           id = _props.id,
           mandatory = _props.mandatory,
@@ -8754,7 +8760,7 @@ var Input = function (_Component) {
           showErrors = _props.showErrors,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'errorMessages', 'label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -8788,11 +8794,12 @@ var Input = function (_Component) {
   }]);
 
   return Input;
-}(_react.Component);
+}(_react.PureComponent);
 
 Input.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Input.propTypes = {
@@ -12882,6 +12889,11 @@ var randomInt = exports.randomInt = function randomInt(max) {
   return Math.floor(Math.random() * Math.floor(myMax));
 };
 
+var defaultValidationMessages = exports.defaultValidationMessages = {
+  mandatory: 'This field is required',
+  invalidURL: 'Please enter a valid URL'
+};
+
 /***/ }),
 /* 74 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -16601,9 +16613,9 @@ var _container = __webpack_require__(289);
 
 var _container2 = _interopRequireDefault(_container);
 
-var _highOrderContainer = __webpack_require__(290);
+var _externalComponentContainer = __webpack_require__(290);
 
-var _highOrderContainer2 = _interopRequireDefault(_highOrderContainer);
+var _externalComponentContainer2 = _interopRequireDefault(_externalComponentContainer);
 
 var _utils = __webpack_require__(73);
 
@@ -16618,6 +16630,8 @@ var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 var _fontawesomeFreeSolid = __webpack_require__(291);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -16640,7 +16654,7 @@ var FIELD_CLASS = {
   'richtext': _richtext2.default,
   'button': _button2.default,
   'container': _container2.default,
-  'hoc': _highOrderContainer2.default
+  'external-component': _externalComponentContainer2.default
 };
 
 var CustomReactForm = function (_Component) {
@@ -16695,10 +16709,10 @@ var CustomReactForm = function (_Component) {
   }, {
     key: 'handleFieldChange',
     value: function handleFieldChange(field) {
-      var changedFields = this.updateFields(this.state.fields, field);
-      this.props.updateParentCallback(_extends({
-        fields: changedFields
-      }, this.readOnlyAttributes));
+      var updateField = field.updateField,
+          updatedField = _objectWithoutProperties(field, ['updateField']);
+
+      this.props.updateParentCallback(updatedField);
     }
   }, {
     key: 'render',
@@ -16715,9 +16729,20 @@ var CustomReactForm = function (_Component) {
           el.id = key;
           el.showErrors = this.props.showAllErrors || el.showErrors;
           var CustomComponent = this.classForType(el.type);
-          if (el.type == 'hoc') {
-            var HOC = CustomComponent(el.component);
-            childNodes.push(_react2.default.createElement(HOC, _extends({}, el.componentProps, el)));
+          if (el.type == 'external-component') {
+            var component = el.component,
+                wrapperProps = _objectWithoutProperties(el, ['component']);
+
+            var ExternalComponent = component;
+            childNodes.push(_react2.default.createElement(
+              CustomComponent,
+              wrapperProps,
+              _react2.default.createElement(ExternalComponent, _extends({
+                id: wrapperProps.id
+              }, el.componentProps, {
+                updateField: this.handleFieldChange
+              }))
+            ));
           } else {
             childNodes.push(_react2.default.createElement(CustomComponent, _extends({}, el, {
               updateField: this.handleFieldChange
@@ -38898,8 +38923,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(4);
@@ -38914,6 +38937,8 @@ var _validator = __webpack_require__(20);
 
 var _validator2 = _interopRequireDefault(_validator);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38922,8 +38947,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var File = function (_Component) {
-  _inherits(File, _Component);
+var File = function (_PureComponent) {
+  _inherits(File, _PureComponent);
 
   function File(props) {
     _classCallCheck(this, File);
@@ -38938,19 +38963,20 @@ var File = function (_Component) {
     key: 'onChange',
     value: function onChange(event) {
       var field = event.currentTarget;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: field.value,
-        files: field.files,
+        files: [field.files[0]],
         errors: this.validationErrors(field.value, field.files),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
     value: function validationErrors(value, files) {
       var errors = [];
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors.push(this.props.label + ' is required');
+        errors.push(this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory);
       }
       return errors;
     }
@@ -39016,12 +39042,13 @@ var File = function (_Component) {
   }]);
 
   return File;
-}(_react.Component);
+}(_react.PureComponent);
 
 File.defaultProps = {
   id: 'file',
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 File.propTypes = {
@@ -39061,6 +39088,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39069,8 +39098,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Textarea = function (_Component) {
-  _inherits(Textarea, _Component);
+var Textarea = function (_PureComponent) {
+  _inherits(Textarea, _PureComponent);
 
   function Textarea(props) {
     _classCallCheck(this, Textarea);
@@ -39080,7 +39109,8 @@ var Textarea = function (_Component) {
     _this.onChange = _this.onChange.bind(_this);
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: false
+      showErrors: false,
+      fromInit: true
     }));
     return _this;
   }
@@ -39089,11 +39119,12 @@ var Textarea = function (_Component) {
     key: 'onChange',
     value: function onChange(event) {
       var field = event.currentTarget;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: field.value,
         errors: this.validationErrors(field.value),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -39104,7 +39135,7 @@ var Textarea = function (_Component) {
         errors = this.props.customValidator(this.props, initialValue);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
-        errors = [this.props.label + ' is required'];
+        errors = [this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory];
       }
       return errors;
     }
@@ -39155,11 +39186,12 @@ var Textarea = function (_Component) {
   }]);
 
   return Textarea;
-}(_react.Component);
+}(_react.PureComponent);
 
 Textarea.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Textarea.propTypes = {
@@ -39211,6 +39243,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 __webpack_require__(275);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39221,8 +39255,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Richtext = function (_Component) {
-  _inherits(Richtext, _Component);
+var Richtext = function (_PureComponent) {
+  _inherits(Richtext, _PureComponent);
 
   function Richtext(props) {
     _classCallCheck(this, Richtext);
@@ -39242,7 +39276,8 @@ var Richtext = function (_Component) {
 
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: false
+      showErrors: false,
+      fromInit: true
     }));
     return _this;
   }
@@ -39253,11 +39288,12 @@ var Richtext = function (_Component) {
       var value = (0, _draftJsExportHtml.stateToHTML)(e.getCurrentContent());
       this.setState({ editorState: e, htmlContent: value });
       var plainTextValue = new DOMParser().parseFromString(value, 'text/html').body.textContent;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: value,
         errors: this.validationErrors(plainTextValue),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -39268,7 +39304,7 @@ var Richtext = function (_Component) {
         errors = this.props.customValidator(this.props, initialValue);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
-        errors = [this.props.label + ' is required'];
+        errors = [this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory];
       }
       return errors;
     }
@@ -39402,7 +39438,7 @@ var Richtext = function (_Component) {
   }]);
 
   return Richtext;
-}(_react.Component);
+}(_react.PureComponent);
 
 var styleMap = {
   CODE: {
@@ -39491,7 +39527,8 @@ var InlineStyleControls = function InlineStyleControls(props) {
 
 Richtext.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Richtext.propTypes = {
@@ -50070,8 +50107,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Select = function (_Component) {
-  _inherits(Select, _Component);
+var Select = function (_PureComponent) {
+  _inherits(Select, _PureComponent);
 
   // TODO: Update this
   function Select(props) {
@@ -50132,7 +50169,7 @@ var Select = function (_Component) {
   }]);
 
   return Select;
-}(_react.Component);
+}(_react.PureComponent);
 
 Select.defaultProps = {
   formGroupClassName: ''
@@ -50181,6 +50218,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50189,8 +50228,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SelectTab = function (_Component) {
-  _inherits(SelectTab, _Component);
+var SelectTab = function (_PureComponent) {
+  _inherits(SelectTab, _PureComponent);
 
   function SelectTab(props) {
     _classCallCheck(this, SelectTab);
@@ -50202,7 +50241,8 @@ var SelectTab = function (_Component) {
     var currentValue = typeof _this.props.value == 'string' ? _this.props.value : _this.formattedValue(_this.props.value);
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(currentValue),
-      showErrors: false
+      showErrors: false,
+      fromInit: true
     }));
     return _this;
   }
@@ -50248,11 +50288,13 @@ var SelectTab = function (_Component) {
         selectedValue = selectedOption ? selectedOption.value : '';
         selectedObj = selectedOption ? this.keyValueObject(selectedOption) : '';
       }
-      this.props.updateField(_extends({}, this.props, {
+
+      this.props.updateField({
+        id: this.props.id,
         value: selectedObj,
         errors: this.validationErrors(selectedValue),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -50263,7 +50305,7 @@ var SelectTab = function (_Component) {
       }
       if (this.props.mandatory) {
         errors = [];
-        var mandatoryError = this.props.label + ' is required';
+        var mandatoryError = this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory;
         if (Array.isArray(currentValue)) {
           if (currentValue.length < 1) {
             errors.push(mandatoryError);
@@ -50356,12 +50398,13 @@ var SelectTab = function (_Component) {
   }]);
 
   return SelectTab;
-}(_react.Component);
+}(_react.PureComponent);
 
 SelectTab.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  autoload: false
+  autoload: false,
+  errorMessages: {}
 };
 
 SelectTab.propTypes = {
@@ -53847,6 +53890,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -53857,8 +53902,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Url = function (_Component) {
-  _inherits(Url, _Component);
+var Url = function (_React$PureComponent) {
+  _inherits(Url, _React$PureComponent);
 
   function Url(props) {
     _classCallCheck(this, Url);
@@ -53866,9 +53911,12 @@ var Url = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Url.__proto__ || Object.getPrototypeOf(Url)).call(this, props));
 
     _this.onChange = _this.onChange.bind(_this);
+    _this.onKeyPress = _this.onKeyPress.bind(_this);
+
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: _this.props.showErrors
+      showErrors: _this.props.showErrors,
+      fromInit: true
     }));
     return _this;
   }
@@ -53876,22 +53924,30 @@ var Url = function (_Component) {
   _createClass(Url, [{
     key: 'onChange',
     value: function onChange(event) {
-      var field = event.currentTarget;
-      this.props.updateField(_extends({}, this.props, {
-        value: field.value,
-        errors: this.validationErrors(field.value),
+      var value = event.currentTarget.value;
+      this.props.updateField({
+        id: this.props.id,
+        value: value,
+        errors: this.validationErrors(value),
         showErrors: true
-      }));
+      });
+    }
+  }, {
+    key: 'onKeyPress',
+    value: function onKeyPress(e) {
+      if (this.props.allowOnlyPaste) {
+        e.preventDefault();
+      }
     }
   }, {
     key: 'validationErrors',
     value: function validationErrors(value) {
       var errors = [];
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors.push(this.props.label + ' is required');
+        errors.push(this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory);
       }
       if (!_validator2.default.isEmpty(value) && !_validator2.default.isURL(value)) {
-        errors.push('Please enter a valid URL');
+        errors.push(this.props.errorMessages.invalidURL || _utils.defaultValidationMessages.invalidURL);
       }
       return errors;
     }
@@ -53899,15 +53955,17 @@ var Url = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          fromInit = _props.fromInit,
           label = _props.label,
-          id = _props.id,
+          allowOnlyPaste = _props.allowOnlyPaste,
           mandatory = _props.mandatory,
           errors = _props.errors,
           updateField = _props.updateField,
           showErrors = _props.showErrors,
+          errorMessages = _props.errorMessages,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'label', 'allowOnlyPaste', 'mandatory', 'errors', 'updateField', 'showErrors', 'errorMessages', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -53922,12 +53980,17 @@ var Url = function (_Component) {
         { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { htmlFor: id },
+          { htmlFor: this.props.id },
           label,
           mandatoryMark,
           tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
-        _react2.default.createElement('input', _extends({ id: id }, domProps, { onChange: this.onChange })),
+        _react2.default.createElement('input', _extends({
+          id: this.props.id
+        }, domProps, {
+          onChange: this.onChange,
+          onKeyPress: this.onKeyPress
+        })),
         showErrors && errors.length > 0 && _react2.default.createElement(
           'div',
           { className: 'error' },
@@ -53938,11 +54001,13 @@ var Url = function (_Component) {
   }]);
 
   return Url;
-}(_react.Component);
+}(_react2.default.PureComponent);
 
 Url.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {},
+  allowOnlyPaste: false
 };
 
 Url.propTypes = {
@@ -53976,8 +54041,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Container = function (_Component) {
-  _inherits(Container, _Component);
+var Container = function (_PureComponent) {
+  _inherits(Container, _PureComponent);
 
   function Container() {
     _classCallCheck(this, Container);
@@ -54009,7 +54074,7 @@ var Container = function (_Component) {
   }]);
 
   return Container;
-}(_react.Component);
+}(_react.PureComponent);
 
 Container.defaultProps = {
   formGroupClassName: ''
@@ -54042,35 +54107,34 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HighOrderContainer = function HighOrderContainer(ContainedComponent) {
-  var HOCWrapper = function (_React$PureComponent) {
-    _inherits(HOCWrapper, _React$PureComponent);
+var ExternalComponentContainer = function (_React$PureComponent) {
+  _inherits(ExternalComponentContainer, _React$PureComponent);
 
-    function HOCWrapper() {
-      _classCallCheck(this, HOCWrapper);
+  function ExternalComponentContainer() {
+    _classCallCheck(this, ExternalComponentContainer);
 
-      return _possibleConstructorReturn(this, (HOCWrapper.__proto__ || Object.getPrototypeOf(HOCWrapper)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ExternalComponentContainer.__proto__ || Object.getPrototypeOf(ExternalComponentContainer)).apply(this, arguments));
+  }
+
+  _createClass(ExternalComponentContainer, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'form-group ecc container ' + this.props.formGroupClassName },
+        this.props.children
+      );
     }
+  }]);
 
-    _createClass(HOCWrapper, [{
-      key: 'render',
-      value: function render() {
-        var formGroupClassName = this.props.formGroupClassName || '';
-        return _react2.default.createElement(
-          'div',
-          { className: 'form-group hoc container ' + formGroupClassName },
-          _react2.default.createElement(ContainedComponent, this.props)
-        );
-      }
-    }]);
+  return ExternalComponentContainer;
+}(_react2.default.PureComponent);
 
-    return HOCWrapper;
-  }(_react2.default.PureComponent);
-
-  return HOCWrapper;
+ExternalComponentContainer.defaultProps = {
+  formGroupClassName: ''
 };
 
-exports.default = HighOrderContainer;
+exports.default = ExternalComponentContainer;
 
 /***/ }),
 /* 291 */

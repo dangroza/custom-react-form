@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
+import { defaultValidationMessages } from './../utils';
 
-class File extends Component {
+class File extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -12,9 +13,9 @@ class File extends Component {
     const field = event.currentTarget;
     this.props.updateField(
       {
-        ...this.props,
+        id: this.props.id,
         value: field.value,
-        files: field.files,
+        files: [field.files[0]],
         errors: this.validationErrors(field.value, field.files),
         showErrors: true
       }
@@ -24,7 +25,7 @@ class File extends Component {
   validationErrors(value, files) {
     let errors = [];
     if (this.props.mandatory && validator.isEmpty(value)) {
-      errors.push(`${this.props.label} is required`);
+      errors.push(this.props.errorMessages.mandatory || defaultValidationMessages.mandatory);
     }
     return errors;
   }
@@ -56,7 +57,8 @@ class File extends Component {
 File.defaultProps = {
   id: 'file',
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 File.propTypes = {

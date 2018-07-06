@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Editor, EditorState, ContentState, RichUtils, getDefaultKeyBinding, convertFromHTML } from 'draft-js';
@@ -6,9 +6,10 @@ import {stateToHTML} from 'draft-js-export-html';
 import validator from 'validator';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import TooltipLink from './tooltip-link';
+import { defaultValidationMessages } from './../utils';
 
 import '../style/richtext.css';
-class Richtext extends Component {
+class Richtext extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -27,7 +28,8 @@ class Richtext extends Component {
       {
         ...this.props,
         errors: this.validationErrors(this.props.value),
-        showErrors: false
+        showErrors: false,
+        fromInit: true
       }
     );
   }
@@ -49,14 +51,12 @@ class Richtext extends Component {
     const value = stateToHTML(e.getCurrentContent());
     this.setState({ editorState: e, htmlContent: value });
     const plainTextValue = new DOMParser().parseFromString(value, 'text/html').body.textContent;
-    this.props.updateField(
-      {
-        ...this.props,
-        value: value,
-        errors: this.validationErrors(plainTextValue),
-        showErrors: true
-      }
-    );
+    this.props.updateField({
+      id: this.props.id,
+      value: value,
+      errors: this.validationErrors(plainTextValue),
+      showErrors: true
+    });
   }
 
   validationErrors(value) {
@@ -66,7 +66,7 @@ class Richtext extends Component {
       errors = this.props.customValidator(this.props, initialValue);
     }
     if (this.props.mandatory && validator.isEmpty(initialValue)) {
-      errors = [`${this.props.label} is required`];
+      errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
     }
     return errors;
   }
@@ -254,7 +254,8 @@ const InlineStyleControls = (props) => {
 
 Richtext.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Richtext.propTypes = {
