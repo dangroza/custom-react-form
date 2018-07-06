@@ -4,6 +4,7 @@ import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import validator from 'validator';
 import TooltipLink from './tooltip-link';
+import { defaultValidationMessages } from './../utils';
 
 class SelectTab extends PureComponent {
   constructor(props) {
@@ -11,11 +12,11 @@ class SelectTab extends PureComponent {
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
     const currentValue = (typeof this.props.value == 'string') ? this.props.value : this.formattedValue(this.props.value);
-    this.props.updateField(
-      {
-        ...this.props,
-        errors: this.validationErrors(currentValue),
-        showErrors: false
+    this.props.updateField({
+      ...this.props,
+      errors: this.validationErrors(currentValue),
+      showErrors: false,
+      fromInit: true
     });
   }
 
@@ -26,7 +27,7 @@ class SelectTab extends PureComponent {
   formattedValue(val) {
     let formattedValue = null;
     if (Array.isArray(val)) {
-      formattedValue = val.map(o => { return o.value });
+      formattedValue = val.map(o => o.value);
     } else {
       formattedValue = val ? val.value : '';
     }
@@ -36,20 +37,20 @@ class SelectTab extends PureComponent {
 
   onChange(selectedOption) {
     let selectedValue = null;
-    let selectedObj = null;
+    let selectedObj   = null;
     if (Array.isArray(selectedOption)) {
-      selectedValue = selectedOption.map(o => { return o.value });
-      selectedObj = selectedOption.map(o => { return this.keyValueObject(o) });
+      selectedValue = selectedOption.map(o => o.value);
+      selectedObj = selectedOption.map(o => this.keyValueObject(o));
     } else {
       selectedValue = selectedOption ? selectedOption.value : '';
       selectedObj = selectedOption ? this.keyValueObject(selectedOption) : '';
     }
-    this.props.updateField(
-      {
-        ...this.props,
-        value: selectedObj,
-        errors: this.validationErrors(selectedValue),
-        showErrors: true
+
+    this.props.updateField({
+      id: this.props.id,
+      value: selectedObj,
+      errors: this.validationErrors(selectedValue),
+      showErrors: true
     });
   }
 
@@ -60,7 +61,7 @@ class SelectTab extends PureComponent {
     }
     if (this.props.mandatory) {
       errors = [];
-      const mandatoryError = `${this.props.label} is required`;
+      const mandatoryError = this.props.errorMessages.mandatory || defaultValidationMessages.mandatory;
       if (Array.isArray(currentValue)) {
         if (currentValue.length < 1) { errors.push(mandatoryError); }
       } else {
@@ -125,7 +126,8 @@ class SelectTab extends PureComponent {
 SelectTab.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  autoload: false
+  autoload: false,
+  errorMessages: {}
 };
 
 SelectTab.propTypes = {

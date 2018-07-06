@@ -8694,6 +8694,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -8715,7 +8717,8 @@ var Input = function (_PureComponent) {
     _this.onChange = _this.onChange.bind(_this);
     _this.props.updateField(_extends({}, _this.props, {
       showErrors: false,
-      errors: _this.validationErrors(_this.props.value)
+      errors: _this.validationErrors(_this.props.value),
+      fromInit: true
     }));
     return _this;
   }
@@ -8724,11 +8727,12 @@ var Input = function (_PureComponent) {
     key: 'onChange',
     value: function onChange(event) {
       var value = event.currentTarget.value;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: value,
         errors: this.validationErrors(value),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -8738,7 +8742,7 @@ var Input = function (_PureComponent) {
         errors = this.props.customValidator(this.props, value);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors = [this.props.label + ' is required'];
+        errors = [this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory];
       }
       return errors;
     }
@@ -8746,6 +8750,8 @@ var Input = function (_PureComponent) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          fromInit = _props.fromInit,
+          errorMessages = _props.errorMessages,
           label = _props.label,
           id = _props.id,
           mandatory = _props.mandatory,
@@ -8754,7 +8760,7 @@ var Input = function (_PureComponent) {
           showErrors = _props.showErrors,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'errorMessages', 'label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -8792,7 +8798,8 @@ var Input = function (_PureComponent) {
 
 Input.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Input.propTypes = {
@@ -12880,6 +12887,11 @@ Object.defineProperty(exports, "__esModule", {
 var randomInt = exports.randomInt = function randomInt(max) {
   var myMax = max || Number.MAX_SAFE_INTEGER;
   return Math.floor(Math.random() * Math.floor(myMax));
+};
+
+var defaultValidationMessages = exports.defaultValidationMessages = {
+  mandatory: 'This field is required',
+  invalidURL: 'Please enter a valid URL'
 };
 
 /***/ }),
@@ -38911,8 +38923,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(4);
@@ -38926,6 +38936,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _validator = __webpack_require__(20);
 
 var _validator2 = _interopRequireDefault(_validator);
+
+var _utils = __webpack_require__(73);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38951,19 +38963,20 @@ var File = function (_PureComponent) {
     key: 'onChange',
     value: function onChange(event) {
       var field = event.currentTarget;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: field.value,
         files: [field.files[0]],
         errors: this.validationErrors(field.value, field.files),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
     value: function validationErrors(value, files) {
       var errors = [];
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors.push(this.props.label + ' is required');
+        errors.push(this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory);
       }
       return errors;
     }
@@ -39034,7 +39047,8 @@ var File = function (_PureComponent) {
 File.defaultProps = {
   id: 'file',
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 File.propTypes = {
@@ -39074,6 +39088,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39093,7 +39109,8 @@ var Textarea = function (_PureComponent) {
     _this.onChange = _this.onChange.bind(_this);
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: false
+      showErrors: false,
+      fromInit: true
     }));
     return _this;
   }
@@ -39102,11 +39119,12 @@ var Textarea = function (_PureComponent) {
     key: 'onChange',
     value: function onChange(event) {
       var field = event.currentTarget;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: field.value,
         errors: this.validationErrors(field.value),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -39117,7 +39135,7 @@ var Textarea = function (_PureComponent) {
         errors = this.props.customValidator(this.props, initialValue);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
-        errors = [this.props.label + ' is required'];
+        errors = [this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory];
       }
       return errors;
     }
@@ -39172,7 +39190,8 @@ var Textarea = function (_PureComponent) {
 
 Textarea.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Textarea.propTypes = {
@@ -39224,6 +39243,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 __webpack_require__(275);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39255,7 +39276,8 @@ var Richtext = function (_PureComponent) {
 
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: false
+      showErrors: false,
+      fromInit: true
     }));
     return _this;
   }
@@ -39266,11 +39288,12 @@ var Richtext = function (_PureComponent) {
       var value = (0, _draftJsExportHtml.stateToHTML)(e.getCurrentContent());
       this.setState({ editorState: e, htmlContent: value });
       var plainTextValue = new DOMParser().parseFromString(value, 'text/html').body.textContent;
-      this.props.updateField(_extends({}, this.props, {
+      this.props.updateField({
+        id: this.props.id,
         value: value,
         errors: this.validationErrors(plainTextValue),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -39281,7 +39304,7 @@ var Richtext = function (_PureComponent) {
         errors = this.props.customValidator(this.props, initialValue);
       }
       if (this.props.mandatory && _validator2.default.isEmpty(initialValue)) {
-        errors = [this.props.label + ' is required'];
+        errors = [this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory];
       }
       return errors;
     }
@@ -39504,7 +39527,8 @@ var InlineStyleControls = function InlineStyleControls(props) {
 
 Richtext.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Richtext.propTypes = {
@@ -50194,6 +50218,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50215,7 +50241,8 @@ var SelectTab = function (_PureComponent) {
     var currentValue = typeof _this.props.value == 'string' ? _this.props.value : _this.formattedValue(_this.props.value);
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(currentValue),
-      showErrors: false
+      showErrors: false,
+      fromInit: true
     }));
     return _this;
   }
@@ -50261,11 +50288,13 @@ var SelectTab = function (_PureComponent) {
         selectedValue = selectedOption ? selectedOption.value : '';
         selectedObj = selectedOption ? this.keyValueObject(selectedOption) : '';
       }
-      this.props.updateField(_extends({}, this.props, {
+
+      this.props.updateField({
+        id: this.props.id,
         value: selectedObj,
         errors: this.validationErrors(selectedValue),
         showErrors: true
-      }));
+      });
     }
   }, {
     key: 'validationErrors',
@@ -50276,7 +50305,7 @@ var SelectTab = function (_PureComponent) {
       }
       if (this.props.mandatory) {
         errors = [];
-        var mandatoryError = this.props.label + ' is required';
+        var mandatoryError = this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory;
         if (Array.isArray(currentValue)) {
           if (currentValue.length < 1) {
             errors.push(mandatoryError);
@@ -50374,7 +50403,8 @@ var SelectTab = function (_PureComponent) {
 SelectTab.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  autoload: false
+  autoload: false,
+  errorMessages: {}
 };
 
 SelectTab.propTypes = {
@@ -53860,6 +53890,8 @@ var _tooltipLink = __webpack_require__(22);
 
 var _tooltipLink2 = _interopRequireDefault(_tooltipLink);
 
+var _utils = __webpack_require__(73);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -53879,9 +53911,12 @@ var Url = function (_React$PureComponent) {
     var _this = _possibleConstructorReturn(this, (Url.__proto__ || Object.getPrototypeOf(Url)).call(this, props));
 
     _this.onChange = _this.onChange.bind(_this);
+    _this.onKeyPress = _this.onKeyPress.bind(_this);
+
     _this.props.updateField(_extends({}, _this.props, {
       errors: _this.validationErrors(_this.props.value),
-      showErrors: _this.props.showErrors
+      showErrors: _this.props.showErrors,
+      fromInit: true
     }));
     return _this;
   }
@@ -53889,22 +53924,29 @@ var Url = function (_React$PureComponent) {
   _createClass(Url, [{
     key: 'onChange',
     value: function onChange(event) {
-      var field = event.currentTarget;
-      this.props.updateField(_extends({}, this.props, {
-        value: field.value,
-        errors: this.validationErrors(field.value),
+      var value = event.currentTarget.value;
+      this.props.updateField({
+        id: this.props.id,
+        value: value,
+        errors: this.validationErrors(value),
         showErrors: true
-      }));
+      });
+    }
+  }, {
+    key: 'onKeyPress',
+    value: function onKeyPress(e) {
+      //e.preventDefault();
     }
   }, {
     key: 'validationErrors',
     value: function validationErrors(value) {
       var errors = [];
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
-        errors.push(this.props.label + ' is required');
+        errors.push(this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory);
       }
+
       if (!_validator2.default.isEmpty(value) && !_validator2.default.isURL(value)) {
-        errors.push('Please enter a valid URL');
+        errors.push(this.props.errorMessages.invalidURL || _utils.defaultValidationMessages.invalidURL);
       }
       return errors;
     }
@@ -53912,15 +53954,16 @@ var Url = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          fromInit = _props.fromInit,
           label = _props.label,
-          id = _props.id,
           mandatory = _props.mandatory,
           errors = _props.errors,
           updateField = _props.updateField,
           showErrors = _props.showErrors,
+          errorMessages = _props.errorMessages,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'label', 'mandatory', 'errors', 'updateField', 'showErrors', 'errorMessages', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -53935,12 +53978,17 @@ var Url = function (_React$PureComponent) {
         { className: formGroupClasses.join(' ') },
         _react2.default.createElement(
           'label',
-          { htmlFor: id },
+          { htmlFor: this.props.id },
           label,
           mandatoryMark,
           tooltip && _react2.default.createElement(_tooltipLink2.default, { tooltip: tooltip })
         ),
-        _react2.default.createElement('input', _extends({ id: id }, domProps, { onChange: this.onChange })),
+        _react2.default.createElement('input', _extends({
+          id: this.props.id
+        }, domProps, {
+          onChange: this.onChange,
+          onKeyPress: this.onKeyPress
+        })),
         showErrors && errors.length > 0 && _react2.default.createElement(
           'div',
           { className: 'error' },
@@ -53955,7 +54003,8 @@ var Url = function (_React$PureComponent) {
 
 Url.defaultProps = {
   formGroupClassName: '',
-  errors: []
+  errors: [],
+  errorMessages: {}
 };
 
 Url.propTypes = {
