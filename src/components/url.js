@@ -31,7 +31,9 @@ class Url extends React.PureComponent {
   }
 
   onKeyPress(e) {
-    //e.preventDefault();
+    if (this.props.allowOnlyPaste) {
+      e.preventDefault();
+    }
   }
 
   validationErrors(value) {
@@ -39,7 +41,6 @@ class Url extends React.PureComponent {
     if (this.props.mandatory && validator.isEmpty(value)) {
       errors.push(this.props.errorMessages.mandatory || defaultValidationMessages.mandatory);
     }
-
     if (!validator.isEmpty(value) && !validator.isURL(value)) {
       errors.push(this.props.errorMessages.invalidURL || defaultValidationMessages.invalidURL);
     }
@@ -47,7 +48,7 @@ class Url extends React.PureComponent {
   }
 
   render() {
-    const { fromInit, label, mandatory, errors, updateField, showErrors, errorMessages, tooltip, formGroupClassName, ...domProps } = this.props;
+    const { fromInit, label, allowOnlyPaste, mandatory, errors, updateField, showErrors, errorMessages, tooltip, formGroupClassName, ...domProps } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -74,7 +75,8 @@ class Url extends React.PureComponent {
 Url.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  allowOnlyPaste: false
 };
 
 Url.propTypes = {

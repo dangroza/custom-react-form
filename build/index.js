@@ -53935,7 +53935,9 @@ var Url = function (_React$PureComponent) {
   }, {
     key: 'onKeyPress',
     value: function onKeyPress(e) {
-      //e.preventDefault();
+      if (this.props.allowOnlyPaste) {
+        e.preventDefault();
+      }
     }
   }, {
     key: 'validationErrors',
@@ -53944,7 +53946,6 @@ var Url = function (_React$PureComponent) {
       if (this.props.mandatory && _validator2.default.isEmpty(value)) {
         errors.push(this.props.errorMessages.mandatory || _utils.defaultValidationMessages.mandatory);
       }
-
       if (!_validator2.default.isEmpty(value) && !_validator2.default.isURL(value)) {
         errors.push(this.props.errorMessages.invalidURL || _utils.defaultValidationMessages.invalidURL);
       }
@@ -53956,6 +53957,7 @@ var Url = function (_React$PureComponent) {
       var _props = this.props,
           fromInit = _props.fromInit,
           label = _props.label,
+          allowOnlyPaste = _props.allowOnlyPaste,
           mandatory = _props.mandatory,
           errors = _props.errors,
           updateField = _props.updateField,
@@ -53963,7 +53965,7 @@ var Url = function (_React$PureComponent) {
           errorMessages = _props.errorMessages,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['fromInit', 'label', 'mandatory', 'errors', 'updateField', 'showErrors', 'errorMessages', 'tooltip', 'formGroupClassName']);
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'label', 'allowOnlyPaste', 'mandatory', 'errors', 'updateField', 'showErrors', 'errorMessages', 'tooltip', 'formGroupClassName']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -54004,7 +54006,8 @@ var Url = function (_React$PureComponent) {
 Url.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  allowOnlyPaste: false
 };
 
 Url.propTypes = {
@@ -54116,10 +54119,9 @@ var ExternalComponentContainer = function (_React$PureComponent) {
   _createClass(ExternalComponentContainer, [{
     key: 'render',
     value: function render() {
-      var formGroupClassName = this.props.formGroupClassName || '';
       return _react2.default.createElement(
         'div',
-        { className: 'form-group ecc container ' + formGroupClassName },
+        { className: 'form-group ecc container ' + this.props.formGroupClassName },
         this.props.children
       );
     }
@@ -54127,6 +54129,10 @@ var ExternalComponentContainer = function (_React$PureComponent) {
 
   return ExternalComponentContainer;
 }(_react2.default.PureComponent);
+
+ExternalComponentContainer.defaultProps = {
+  formGroupClassName: ''
+};
 
 exports.default = ExternalComponentContainer;
 
