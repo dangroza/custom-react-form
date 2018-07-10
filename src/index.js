@@ -73,6 +73,7 @@ class CustomReactForm extends Component {
   classForType(type) {
     return FIELD_CLASS[type] || Input;
   }
+
   componentWillReceiveProps(nextProps) {
     this.setState({ fields: this.updatedFields(nextProps.fields) });
   }
