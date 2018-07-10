@@ -9,8 +9,9 @@ import { defaultValidationMessages } from './../utils';
 class SelectTab extends PureComponent {
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
+    this.onChange   = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
+
     const currentValue = (typeof this.props.value == 'string') ? this.props.value : this.formattedValue(this.props.value);
     this.props.updateField({
       ...this.props,
@@ -18,6 +19,24 @@ class SelectTab extends PureComponent {
       showErrors: false,
       fromInit: true
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // TODO: ADD FOR OTHERS ?
+    if (this.reValidate(prevProps)) {
+      this.props.updateField({
+        id: this.props.id,
+        value: this.props.value,
+        errors: this.validationErrors(this.formattedValue(this.props.value))
+      });
+    }
+  }
+
+  reValidate(prevProps) {
+    const { errors, showErrors } = this.props;
+    return (
+      (prevProps.showErrors != showErrors) && showErrors && errors.length == 0
+    )
   }
 
   keyValueObject(object) {
@@ -55,12 +74,12 @@ class SelectTab extends PureComponent {
   }
 
   validationErrors(currentValue) {
-    let errors;
+    let errors = [];
     if (this.props.customValidator) {
       errors = this.props.customValidator(this.props, value);
     }
+
     if (this.props.mandatory) {
-      errors = [];
       const mandatoryError = this.props.errorMessages.mandatory || defaultValidationMessages.mandatory;
       if (Array.isArray(currentValue)) {
         if (currentValue.length < 1) { errors.push(mandatoryError); }
@@ -99,6 +118,7 @@ class SelectTab extends PureComponent {
     let SelectPlusComponent = this.customSelectClass;
     let customProps = {};
     if (this.props.async) customProps.loadOptions = this.getOptions;
+
     return (
       <div className={formGroupClasses.join(' ')}>
         <label htmlFor={id}>
