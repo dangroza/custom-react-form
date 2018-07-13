@@ -16731,15 +16731,14 @@ var CustomReactForm = function (_Component) {
           var CustomComponent = this.classForType(el.type);
           if (el.type == 'external-component') {
             var component = el.component,
-                wrapperProps = _objectWithoutProperties(el, ['component']);
+                type = el.type,
+                wrapperProps = _objectWithoutProperties(el, ['component', 'type']);
 
             var ExternalComponent = component;
             childNodes.push(_react2.default.createElement(
               CustomComponent,
               wrapperProps,
-              _react2.default.createElement(ExternalComponent, _extends({
-                id: wrapperProps.id
-              }, el.componentProps, {
+              _react2.default.createElement(ExternalComponent, _extends({}, wrapperProps, {
                 updateField: this.handleFieldChange
               }))
             ));

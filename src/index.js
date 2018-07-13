@@ -118,13 +118,12 @@ class CustomReactForm extends Component {
         el.showErrors = this.props.showAllErrors || el.showErrors;
         const CustomComponent = this.classForType(el.type);
         if (el.type == 'external-component') {
-          const { component, ...wrapperProps } = el;
+          const { component, type, ...wrapperProps } = el;
           const ExternalComponent = component;
           childNodes.push(
             <CustomComponent {...wrapperProps}>
               <ExternalComponent
-                id={wrapperProps.id}
-                {...el.componentProps}
+                {...wrapperProps}
                 updateField={this.handleFieldChange}
               />
             </CustomComponent>
