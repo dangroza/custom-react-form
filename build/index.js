@@ -8735,15 +8735,21 @@ var Input = function (_PureComponent) {
     var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
 
     _this.onChange = _this.onChange.bind(_this);
-    _this.props.updateField(_extends({}, _this.props, {
-      showErrors: false,
-      errors: _this.validationErrors(_this.props.value),
-      fromInit: true
-    }));
     return _this;
   }
 
   _createClass(Input, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.updateOnMount) {
+        this.props.updateField(_extends({}, this.props, {
+          showErrors: false,
+          errors: this.validationErrors(this.props.value),
+          fromInit: true
+        }));
+      }
+    }
+  }, {
     key: 'onChange',
     value: function onChange(event) {
       var value = event.currentTarget.value;
@@ -8780,7 +8786,8 @@ var Input = function (_PureComponent) {
           showErrors = _props.showErrors,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['fromInit', 'errorMessages', 'label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName']);
+          updateOnMount = _props.updateOnMount,
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'errorMessages', 'label', 'id', 'mandatory', 'errors', 'updateField', 'showErrors', 'tooltip', 'formGroupClassName', 'updateOnMount']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -8819,7 +8826,8 @@ var Input = function (_PureComponent) {
 Input.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 Input.propTypes = {
@@ -39106,15 +39114,21 @@ var Textarea = function (_PureComponent) {
     var _this = _possibleConstructorReturn(this, (Textarea.__proto__ || Object.getPrototypeOf(Textarea)).call(this, props));
 
     _this.onChange = _this.onChange.bind(_this);
-    _this.props.updateField(_extends({}, _this.props, {
-      errors: _this.validationErrors(_this.props.value),
-      showErrors: false,
-      fromInit: true
-    }));
     return _this;
   }
 
   _createClass(Textarea, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.updateOnMount) {
+        this.props.updateField(_extends({}, this.props, {
+          errors: this.validationErrors(this.props.value),
+          showErrors: false,
+          fromInit: true
+        }));
+      }
+    }
+  }, {
     key: 'onChange',
     value: function onChange(event) {
       var field = event.currentTarget;
@@ -39190,7 +39204,8 @@ var Textarea = function (_PureComponent) {
 Textarea.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 Textarea.propTypes = {
@@ -39267,21 +39282,26 @@ var Richtext = function (_PureComponent) {
     };
 
     _this.onChange = _this._handleOnChange.bind(_this);
-    //this.focus = () => this.refs.editor.focus();
+    //this.focus               = () => this.refs.editor.focus();
     _this.handleKeyCommand = _this._handleKeyCommand.bind(_this);
     _this.mapKeyToEditorCommand = _this._mapKeyToEditorCommand.bind(_this);
     _this.toggleBlockType = _this._toggleBlockType.bind(_this);
     _this.toggleInlineStyle = _this._toggleInlineStyle.bind(_this);
-
-    _this.props.updateField(_extends({}, _this.props, {
-      errors: _this.validationErrors(_this.props.value),
-      showErrors: false,
-      fromInit: true
-    }));
     return _this;
   }
 
   _createClass(Richtext, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.updateOnMount) {
+        this.props.updateField(_extends({}, this.props, {
+          errors: this.validationErrors(this.props.value),
+          showErrors: false,
+          fromInit: true
+        }));
+      }
+    }
+  }, {
     key: '_handleOnChange',
     value: function _handleOnChange(e) {
       var value = (0, _draftJsExportHtml.stateToHTML)(e.getCurrentContent());
@@ -39527,7 +39547,8 @@ var InlineStyleControls = function InlineStyleControls(props) {
 Richtext.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 Richtext.propTypes = {
@@ -50237,13 +50258,6 @@ var SelectTab = function (_PureComponent) {
 
     _this.onChange = _this.onChange.bind(_this);
     _this.getOptions = _this.getOptions.bind(_this);
-
-    var currentValue = typeof _this.props.value == 'string' ? _this.props.value : _this.formattedValue(_this.props.value);
-    _this.props.updateField(_extends({}, _this.props, {
-      errors: _this.validationErrors(currentValue),
-      showErrors: false,
-      fromInit: true
-    }));
     return _this;
   }
 
@@ -50257,6 +50271,18 @@ var SelectTab = function (_PureComponent) {
           value: this.props.value,
           errors: this.validationErrors(this.formattedValue(this.props.value))
         });
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.updateOnMount) {
+        var currentValue = typeof this.props.value == 'string' ? this.props.value : this.formattedValue(this.props.value);
+        this.props.updateField(_extends({}, this.props, {
+          errors: this.validationErrors(currentValue),
+          showErrors: false,
+          fromInit: true
+        }));
       }
     }
   }, {
@@ -50426,7 +50452,8 @@ SelectTab.defaultProps = {
   formGroupClassName: '',
   errors: [],
   autoload: false,
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 SelectTab.propTypes = {
@@ -53934,16 +53961,21 @@ var Url = function (_React$PureComponent) {
 
     _this.onChange = _this.onChange.bind(_this);
     _this.onKeyPress = _this.onKeyPress.bind(_this);
-
-    _this.props.updateField(_extends({}, _this.props, {
-      errors: _this.validationErrors(_this.props.value),
-      showErrors: _this.props.showErrors,
-      fromInit: true
-    }));
     return _this;
   }
 
   _createClass(Url, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.updateOnMount) {
+        this.props.updateField(_extends({}, this.props, {
+          errors: this.validationErrors(this.props.value),
+          showErrors: this.props.showErrors,
+          fromInit: true
+        }));
+      }
+    }
+  }, {
     key: 'onChange',
     value: function onChange(event) {
       var value = event.currentTarget.value;
@@ -53987,7 +54019,8 @@ var Url = function (_React$PureComponent) {
           errorMessages = _props.errorMessages,
           tooltip = _props.tooltip,
           formGroupClassName = _props.formGroupClassName,
-          domProps = _objectWithoutProperties(_props, ['fromInit', 'label', 'allowOnlyPaste', 'mandatory', 'errors', 'updateField', 'showErrors', 'errorMessages', 'tooltip', 'formGroupClassName']);
+          updateOnMount = _props.updateOnMount,
+          domProps = _objectWithoutProperties(_props, ['fromInit', 'label', 'allowOnlyPaste', 'mandatory', 'errors', 'updateField', 'showErrors', 'errorMessages', 'tooltip', 'formGroupClassName', 'updateOnMount']);
 
       var mandatoryMark = mandatory ? _react2.default.createElement(
         'span',
@@ -54029,7 +54062,8 @@ Url.defaultProps = {
   formGroupClassName: '',
   errors: [],
   errorMessages: {},
-  allowOnlyPaste: false
+  allowOnlyPaste: false,
+  updateOnMount: true
 };
 
 Url.propTypes = {

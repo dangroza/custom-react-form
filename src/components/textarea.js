@@ -8,14 +8,17 @@ class Textarea extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.props.updateField(
-      {
+  }
+
+  componentDidMount() {
+    if (this.props.updateOnMount) {
+      this.props.updateField({
         ...this.props,
         errors: this.validationErrors(this.props.value),
         showErrors: false,
         fromInit: true
-      }
-    );
+      });
+    }
   }
 
   onChange(event) {
@@ -68,7 +71,8 @@ class Textarea extends PureComponent {
 Textarea.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 Textarea.propTypes = {

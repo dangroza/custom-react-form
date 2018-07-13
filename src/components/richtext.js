@@ -17,21 +17,23 @@ class Richtext extends PureComponent {
       editorState: this.initialEditorState,
     };
 
-    this.onChange = this._handleOnChange.bind(this);
-    //this.focus = () => this.refs.editor.focus();
-    this.handleKeyCommand = this._handleKeyCommand.bind(this);
+    this.onChange              = this._handleOnChange.bind(this);
+    //this.focus               = () => this.refs.editor.focus();
+    this.handleKeyCommand      = this._handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
-    this.toggleBlockType = this._toggleBlockType.bind(this);
-    this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+    this.toggleBlockType       = this._toggleBlockType.bind(this);
+    this.toggleInlineStyle     = this._toggleInlineStyle.bind(this);
+  }
 
-    this.props.updateField(
-      {
+  componentDidMount() {
+    if (this.props.updateOnMount) {
+      this.props.updateField({
         ...this.props,
         errors: this.validationErrors(this.props.value),
         showErrors: false,
         fromInit: true
-      }
-    );
+      });
+    }
   }
 
   get initialEditorState(){
@@ -255,7 +257,8 @@ const InlineStyleControls = (props) => {
 Richtext.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 Richtext.propTypes = {
