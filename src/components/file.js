@@ -29,7 +29,7 @@ class File extends PureComponent {
   }
 
   get fileName() {
-    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : '';
+    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : this.props.value;
   }
 
   render() {

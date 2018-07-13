@@ -39044,7 +39044,7 @@ var File = function (_PureComponent) {
   }, {
     key: 'fileName',
     get: function get() {
-      return this.props.files && this.props.files[0] ? this.props.files[0].name : '';
+      return this.props.files && this.props.files[0] ? this.props.files[0].name : this.props.value;
     }
   }]);
 
