@@ -11,14 +11,6 @@ class SelectTab extends PureComponent {
     super(props);
     this.onChange   = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
-
-    const currentValue = (typeof this.props.value == 'string') ? this.props.value : this.formattedValue(this.props.value);
-    this.props.updateField({
-      ...this.props,
-      errors: this.validationErrors(currentValue),
-      showErrors: false,
-      fromInit: true
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -28,6 +20,18 @@ class SelectTab extends PureComponent {
         id: this.props.id,
         value: this.props.value,
         errors: this.validationErrors(this.formattedValue(this.props.value))
+      });
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.updateOnMount) {
+      const currentValue = (typeof this.props.value == 'string') ? this.props.value : this.formattedValue(this.props.value);
+      this.props.updateField({
+        ...this.props,
+        errors: this.validationErrors(currentValue),
+        showErrors: false,
+        fromInit: true
       });
     }
   }
@@ -147,7 +151,8 @@ SelectTab.defaultProps = {
   formGroupClassName: '',
   errors: [],
   autoload: false,
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 SelectTab.propTypes = {

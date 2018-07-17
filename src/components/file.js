@@ -11,15 +11,13 @@ class File extends PureComponent {
 
   onChange(event) {
     const field = event.currentTarget;
-    this.props.updateField(
-      {
-        id: this.props.id,
-        value: field.value,
-        files: [field.files[0]],
-        errors: this.validationErrors(field.value, field.files),
-        showErrors: true
-      }
-    );
+    this.props.updateField({
+      id: this.props.id,
+      value: field.value,
+      files: [field.files[0]],
+      errors: this.validationErrors(field.value, field.files),
+      showErrors: true
+    });
   }
 
   validationErrors(value, files) {
@@ -31,7 +29,7 @@ class File extends PureComponent {
   }
 
   get fileName() {
-    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : '';
+    return (this.props.files && this.props.files[0]) ? this.props.files[0].name : this.props.value;
   }
 
   render() {

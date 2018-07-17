@@ -15,26 +15,6 @@ import Container from "./components/container";
 import ExternalComponentContainer from "./components/external-component-container";
 import { randomInt } from './utils';
 
-import fontawesome from '@fortawesome/fontawesome'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight, faBold,
-         faListOl, faListUl, faItalic, faStrikethrough, faUnderline, faInfoCircle
-        } from '@fortawesome/fontawesome-free-solid'
-
-fontawesome.library.add(
-  faAlignCenter,
-  faAlignJustify,
-  faAlignLeft,
-  faAlignRight,
-  faBold,
-  faListOl,
-  faListUl,
-  faItalic,
-  faStrikethrough,
-  faUnderline,
-  faInfoCircle
-);
-
 const FIELD_CLASS = {
   'checkbox': Checkbox,
   'radio': Radio,
@@ -78,24 +58,6 @@ class CustomReactForm extends Component {
     this.setState({ fields: this.updatedFields(nextProps.fields) });
   }
 
-  updateFields(fields, modifiedField) {
-    const updatedFields = { ...fields };
-    const fieldId = modifiedField.id;
-    updatedFields[fieldId].value = modifiedField.value;
-    if (modifiedField.files) {
-      updatedFields[fieldId].files = modifiedField.files;
-    }
-    updatedFields[fieldId].errors = modifiedField.errors;
-    updatedFields[fieldId].showErrors = !!modifiedField.showErrors;
-    return Object.values(updatedFields);
-  }
-
-  get readOnlyAttributes() {
-    return {
-      settings: this.props.settings
-    }
-  }
-
   get isValid() {
     return !(Object.values(this.state.fields).find(el => {
       return el.errors && el.errors.length > 0
@@ -118,13 +80,12 @@ class CustomReactForm extends Component {
         el.showErrors = this.props.showAllErrors || el.showErrors;
         const CustomComponent = this.classForType(el.type);
         if (el.type == 'external-component') {
-          const { component, ...wrapperProps } = el;
+          const { component, type, ...wrapperProps } = el;
           const ExternalComponent = component;
           childNodes.push(
             <CustomComponent {...wrapperProps}>
               <ExternalComponent
-                id={wrapperProps.id}
-                {...el.componentProps}
+                {...wrapperProps}
                 updateField={this.handleFieldChange}
               />
             </CustomComponent>

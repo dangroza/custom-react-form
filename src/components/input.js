@@ -8,12 +8,17 @@ class Input extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.props.updateField({
-      ...this.props,
-      showErrors: false,
-      errors: this.validationErrors(this.props.value),
-      fromInit: true
-    });
+  }
+
+  componentDidMount() {
+    if (this.props.updateOnMount) {
+      this.props.updateField({
+        ...this.props,
+        showErrors: false,
+        errors: this.validationErrors(this.props.value),
+        fromInit: true
+      });
+    }
   }
 
   onChange(event) {
@@ -38,7 +43,7 @@ class Input extends PureComponent {
   }
 
   render() {
-    const { fromInit, errorMessages, label, id, mandatory, errors, updateField, showErrors, tooltip, formGroupClassName, ...domProps} = this.props;
+    const { fromInit, errorMessages, label, id, mandatory, errors, updateField, showErrors, tooltip, formGroupClassName, updateOnMount, ...domProps} = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -63,7 +68,8 @@ class Input extends PureComponent {
 Input.defaultProps = {
   formGroupClassName: '',
   errors: [],
-  errorMessages: {}
+  errorMessages: {},
+  updateOnMount: true
 };
 
 Input.propTypes = {
