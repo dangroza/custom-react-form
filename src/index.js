@@ -15,26 +15,6 @@ import Container from "./components/container";
 import ExternalComponentContainer from "./components/external-component-container";
 import { randomInt } from './utils';
 
-import fontawesome from '@fortawesome/fontawesome'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight, faBold,
-         faListOl, faListUl, faItalic, faStrikethrough, faUnderline, faInfoCircle
-        } from '@fortawesome/fontawesome-free-solid'
-
-fontawesome.library.add(
-  faAlignCenter,
-  faAlignJustify,
-  faAlignLeft,
-  faAlignRight,
-  faBold,
-  faListOl,
-  faListUl,
-  faItalic,
-  faStrikethrough,
-  faUnderline,
-  faInfoCircle
-);
-
 const FIELD_CLASS = {
   'checkbox': Checkbox,
   'radio': Radio,
