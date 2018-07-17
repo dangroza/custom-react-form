@@ -58,24 +58,6 @@ class CustomReactForm extends Component {
     this.setState({ fields: this.updatedFields(nextProps.fields) });
   }
 
-  updateFields(fields, modifiedField) {
-    const updatedFields = { ...fields };
-    const fieldId = modifiedField.id;
-    updatedFields[fieldId].value = modifiedField.value;
-    if (modifiedField.files) {
-      updatedFields[fieldId].files = modifiedField.files;
-    }
-    updatedFields[fieldId].errors = modifiedField.errors;
-    updatedFields[fieldId].showErrors = !!modifiedField.showErrors;
-    return Object.values(updatedFields);
-  }
-
-  get readOnlyAttributes() {
-    return {
-      settings: this.props.settings
-    }
-  }
-
   get isValid() {
     return !(Object.values(this.state.fields).find(el => {
       return el.errors && el.errors.length > 0
