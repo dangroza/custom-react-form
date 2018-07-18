@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
-import validator from 'validator';
+import isEmpty from 'validator/lib/isEmpty';
 import TooltipLink from './tooltip-link';
 import { defaultValidationMessages } from './../utils';
 
@@ -77,7 +77,7 @@ class SelectTab extends PureComponent {
     });
   }
 
-  validationErrors(currentValue) {
+  validationErrors(value) {
     let errors = [];
     if (this.props.customValidator) {
       errors = this.props.customValidator(this.props, value);
@@ -85,10 +85,10 @@ class SelectTab extends PureComponent {
 
     if (this.props.mandatory) {
       const mandatoryError = this.props.errorMessages.mandatory || defaultValidationMessages.mandatory;
-      if (Array.isArray(currentValue)) {
-        if (currentValue.length < 1) { errors.push(mandatoryError); }
+      if (Array.isArray(value)) {
+        if (value.length < 1) { errors.push(mandatoryError); }
       } else {
-        if (validator.isEmpty(currentValue)) { errors.push(mandatoryError); }
+        if (isEmpty(String(value))) { errors.push(mandatoryError); }
       }
     }
      return errors;

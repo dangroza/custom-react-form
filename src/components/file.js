@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import validator from 'validator';
+import isEmpty from 'validator/lib/isEmpty';
 import { defaultValidationMessages } from './../utils';
 
 class File extends PureComponent {
@@ -22,7 +22,7 @@ class File extends PureComponent {
 
   validationErrors(value, files) {
     let errors = [];
-    if (this.props.mandatory && validator.isEmpty(value)) {
+    if (this.props.mandatory && isEmpty(String(value))) {
       errors.push(this.props.errorMessages.mandatory || defaultValidationMessages.mandatory);
     }
     return errors;

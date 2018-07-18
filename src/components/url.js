@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import validator from 'validator';
+import isEmpty from 'validator/lib/isEmpty';
+import isURL from 'validator/lib/isURL';
 import TooltipLink from './tooltip-link';
 import { defaultValidationMessages } from './../utils';
 
@@ -39,11 +40,12 @@ class Url extends React.PureComponent {
   }
 
   validationErrors(value) {
+    const currentValue = String(value);
     let errors = [];
-    if (this.props.mandatory && validator.isEmpty(value)) {
+    if (this.props.mandatory && isEmpty(currentValue)) {
       errors.push(this.props.errorMessages.mandatory || defaultValidationMessages.mandatory);
     }
-    if (!validator.isEmpty(value) && !validator.isURL(value)) {
+    if (!isEmpty(currentValue) && !isURL(currentValue)) {
       errors.push(this.props.errorMessages.invalidURL || defaultValidationMessages.invalidURL);
     }
     return errors;

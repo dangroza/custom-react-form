@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import validator from 'validator';
+import isEmpty from 'validator/lib/isEmpty';
 import TooltipLink from './tooltip-link';
 import { defaultValidationMessages } from './../utils';
 
@@ -36,7 +36,7 @@ class Input extends PureComponent {
     if (this.props.customValidator) {
       errors = this.props.customValidator(this.props, value);
     }
-    if (this.props.mandatory && validator.isEmpty(value)) {
+    if (this.props.mandatory && isEmpty(String(value))) {
       errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
     }
     return errors;
