@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import validator from 'validator';
+import isEmpty from 'validator/lib/isEmpty';
 import TooltipLink from './tooltip-link';
 import ReactQuill from 'react-quill';
 import { defaultValidationMessages } from './../utils';
@@ -41,12 +41,11 @@ class Richtext extends PureComponent {
   }
 
   validationErrors(value) {
-    const initialValue = value || '';
     let errors = [];
     if (this.props.customValidator) {
-      errors = this.props.customValidator(this.props, initialValue);
+      errors = this.props.customValidator(this.props, value);
     }
-    if (this.props.mandatory && validator.isEmpty(initialValue)) {
+    if (this.props.mandatory && isEmpty(String(value))) {
       errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
     }
     return errors;
