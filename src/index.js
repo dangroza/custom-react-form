@@ -122,14 +122,14 @@ CustomReactForm.propTypes = {
 };
 
 export default CustomReactForm;
-exports.Button = Button;
-exports.Checkbox = Checkbox;
-exports.File = File;
-exports.Input = Input;
-exports.Password = Password;
-exports.Richtext = Richtext;
-exports.Radio = Radio;
-exports.Select = Select;
-exports.SelectTab = SelectTab;
-exports.Textarea = Textarea;
-exports.Url = Url;
+// exports.Button = Button;
+// exports.Checkbox = Checkbox;
+// exports.File = File;
+// exports.Input = Input;
+// exports.Password = Password;
+// exports.Richtext = Richtext;
+// exports.Radio = Radio;
+// exports.Select = Select;
+// exports.SelectTab = SelectTab;
+// exports.Textarea = Textarea;
+// exports.Url = Url;
